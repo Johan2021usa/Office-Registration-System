@@ -35,7 +35,7 @@ public class EmployeeController {
         return new ResponseEntity<Employee>(employeeService.saveEmployee(employee), HttpStatus.CREATED);
     }
 
-    //////BUILD GET ALL EMPLOYEE (REST API) (SAVE EMPLOYEE)////////////////
+    //////BUILD GET ALL EMPLOYEE (REST API) (GET ALL EMPLOYEE)////////////////
     //List will handle a collection of objects or data.
     @GetMapping //GetMapping is going to handle HTTP get request.
     public List<Employee> getAllEmployees(){
