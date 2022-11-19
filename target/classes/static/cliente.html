@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="application/json">
+    <link rel="stylesheet" href="css/estilos.css">
+    <title>Inicio</title>
+</head>
+
+<body>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="js/functions.js"></script>
+    <script src="js/employeesFuntions.js"></script>
+    <div class="header">
+        <h1>PAGINA WEB DE MI TIENDA: Employees</h1>
+        <!--titulo principal-->
+    </div>
+    <div class="row">
+
+        <div class="col-3 col-s-3">
+            <!--BOTONES MENU-->
+            <ul class="menu">
+                <li><a href="index.html"><input class="butMenu" type="button" value="Inicio"></a></li>
+                <li><a href="mensaje.html"><input class="butMenu" type="button" value="mensaje"></a></li>
+                <li><a href="salon.html"><input class="butMenu" type="button" value="salon"></a></li>
+            </ul>
+        </div>
+
+        <div class="col-9 col-s-9">
+
+            <!--Titulo del contenedor-->
+            <p class="centrarObj tituloCelda"> DATOS DE REGISTRO DE EMPLEADOS </p>
+
+            <!--contenedor de datos-->
+            <!--<div class="containerEmployee" id="contenedor3"></div>-->
+            <div class="edicionCelda" id="contenedorEmp"></div>
+            <!--formularios-->
+            <div class="centrarObj">
+                <input type="number" id="id" placeholder="id" onkeyup="validar()">
+                <input type="text" id="first_name" placeholder="first name">
+                <input type="text" id="last_name" placeholder="last name">
+                <input type="text" id="email" placeholder="email">
+                <br>
+            </div>
+
+            <!--Botones-->
+            <div class="fondIni">
+                <input class="butIni" type="button" value="Mostrar Empleados" id ="getEmployee" onclick="getEmployee()">
+                <input class="butIni" type="button" value="Mostrar Empleados2" id ="getEmployee2" onclick="getEmployee2()">
+                <input class="butIni" type="button" value="Mostrar Empleados3" id ="getEmployee3" onclick="getEmployee3()">
+                <input class="butIni" type="button" value="Registrar empleado" id="btncrear" onclick="crearDatosClient()">
+                <input class="butIni" type="button" value="Actualizar datos de empleado" id="btnactualiza" onclick="actualizarDatosClient()">
+                <br>
+
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <p>Ingrese los valores segun las caracteristicas de cada celda</p>
+    </div>
+</body>
+
+</html>

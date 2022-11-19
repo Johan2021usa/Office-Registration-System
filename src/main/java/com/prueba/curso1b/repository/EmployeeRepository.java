@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 // @Repository Annotation is no required because Spring Data JPA internally provides the annotation internally
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+
 }

@@ -16,10 +16,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     ///////////////////////////////////CREATING A DEPENDENCY INJECTION//////////////////////////////////////
     //Injection required to implement the methods.... constructor - based dependency injection
+    //Not Autowired annotation needed because is the only constructor in the class
     private EmployeeRepository employeeRepository;
 
         //Add a constructor to this dependency
-        //Not Autowired annotation needed because is the only constructor in the class
     public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
         //add super...
         super();

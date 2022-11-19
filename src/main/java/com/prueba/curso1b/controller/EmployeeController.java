@@ -12,6 +12,8 @@ import java.util.List;
 @RestController
 //This Request can be omitted and the complement can be placed inside PostMapping annotation.
 @RequestMapping({"/api/employees"})
+@CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
+//@CrossOrigin(origins = "http://localhost:8080")
 public class EmployeeController {
 
     //////////////DEPENDENCY INJECTION/////////////////
@@ -25,7 +27,6 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-
     ///////BUILD CREATE EMPLOYEE (REST API) (SAVE EMPLOYEE)////////////////
     //Return method = ResponseEntity<here goes the model class or entity>
     @PostMapping //we can put ("employees") but to maintain this code we can put it in the RequestMapping.
@@ -37,7 +38,9 @@ public class EmployeeController {
 
     //////BUILD GET ALL EMPLOYEE (REST API) (GET ALL EMPLOYEE)////////////////
     //List will handle a collection of objects or data.
+
     @GetMapping //GetMapping is going to handle HTTP get request.
+    //@CrossOrigin(origins = "http://localhost:8080/api/employees")
     public List<Employee> getAllEmployees(){
         return employeeService.getAllEmployees();
     }

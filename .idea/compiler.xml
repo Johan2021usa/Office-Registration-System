@@ -7,16 +7,16 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Curso1b" />
+        <module name="WebApplication#2" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="Curso1b" target="11" />
+      <module name="WebApplication#2" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="Curso1b" options="-parameters" />
+      <module name="WebApplication#2" options="-parameters" />
     </option>
   </component>
 </project>

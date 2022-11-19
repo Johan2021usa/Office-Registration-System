@@ -1,5 +1,6 @@
 package com.prueba.curso1b.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -24,4 +25,9 @@ public class Employee {
     @Column(name = "email")
     private String email;
 
+    //Because of this a department can have many employees, this entity has to receive the foreign key.
+    //this foreign key will be annotated with the opposite way (one to many) --> (many to one)
+    //The name of this object created has to have the same name of the Mapped option...
+    @ManyToOne
+    private Department department;
 }
