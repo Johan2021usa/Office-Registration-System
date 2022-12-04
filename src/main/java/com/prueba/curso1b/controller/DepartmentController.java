@@ -2,9 +2,9 @@ package com.prueba.curso1b.controller;
 
 import com.prueba.curso1b.model.Department;
 import com.prueba.curso1b.service.DepartmentService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,5 +24,11 @@ public class DepartmentController {
     @GetMapping
    public List<Department> getAllDepartments(){
         return  departmentService.getAllDepartments();
+    }
+
+    //Build Save Department (REST API)
+    @PostMapping
+    public ResponseEntity<Department> saveDepartment(@RequestBody Department department){
+        return new ResponseEntity<Department>(departmentService.saveDepartment(department), HttpStatus.CREATED);
     }
 }

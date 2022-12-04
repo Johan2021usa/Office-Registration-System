@@ -30,4 +30,9 @@ public class Employee {
     //The name of this object created has to have the same name of the Mapped option...
     @ManyToOne
     private Department department;
+
+    //Cardinality one Employee has one Vehicle.
+    @JsonIgnore
+    @OneToOne(mappedBy = "employee")
+    private Vehicle vehicle;
 }

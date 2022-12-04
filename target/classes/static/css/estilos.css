@@ -1,6 +1,9 @@
 * {
     box-sizing: border-box;
   }
+.backGround{
+  background-color: #7e4df8;
+}
   
   .row::after {
     content: "";
@@ -18,7 +21,7 @@
   }
   
   .header {
-    background-color: #ced113;
+    background-color: #523ba8;
     color: #ffffff;
     padding: 10px;
     text-align: center;
@@ -52,7 +55,7 @@
   }
   
   .footer {
-    background-color: #0099cc;
+    background-color: #523ba8;
     color: #ffffff;
     text-align: center;
     font-size: 12px;
@@ -96,7 +99,7 @@
     .col-12 {width: 100%;}
   }
   .butIni{
-    background-color:rgba(24, 161, 155, 0.671);
+    background-color: rgb(82, 59, 168);
     animation-fill-mode: both;
     color: white;
     font-family: "Luida Sans", sans-serif;
@@ -105,10 +108,10 @@
     padding: 5px;
   }
   .butIni:hover{
-    background-color:rgb(93, 37, 224);
+    background-color: rgb(126, 77, 248);
  }
  .butMenu{
-  background-color:rgba(24, 161, 155, 0.671);
+  background-color: rgb(82, 59, 168);
   animation-fill-mode: both;
   color: white;
   font-family: "Luida Sans", sans-serif;
@@ -121,7 +124,7 @@
 }
   .fondIni{
     text-align: center;
-    background-color: #0099cc;
+    background-color: #523ba8;
     margin: 19px;
     padding: 35px;
     box-shadow: yellow;
@@ -136,26 +139,14 @@
   }
   .tituloCelda{
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-weight: 800;
+    font-weight: 900;
   }
-  .textoCelda{
+
+  .backGroundCell{
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  }
-  .edicionTabla {
-    width: 100%;
-    /*text-align: left;
-    margin-right: -11%;*/
-  }
-  .edicionCelda{
-    width: 100%;
-  }
-  .edicionCelda th{
-    border-style: solid;
-    border-width: 2px;
+    background-color: #bc9ee0;
+    border-color: black;
     text-align: center;
+    font-size: 18px;
   }
-  .edicionCelda td{
-    border-style: solid;
-    border-width: 2px;
-    text-align: center;
-  }
+

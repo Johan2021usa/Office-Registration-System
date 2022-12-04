@@ -6,16 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Type" content="application/json">
+
     <link rel="stylesheet" href="css/estilos.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="js/employeesFuntions.js"></script>
+
     <title>Inicio</title>
 </head>
 
-<body>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="js/functions.js"></script>
-    <script src="js/employeesFuntions.js"></script>
+<body class="backGround">
     <div class="header">
-        <h1>PAGINA WEB DE MI TIENDA: Employees</h1>
+        <h1>web page 2.0: Employees</h1>
         <!--titulo principal-->
     </div>
     <div class="row">
@@ -32,30 +33,39 @@
         <div class="col-9 col-s-9">
 
             <!--Titulo del contenedor-->
-            <p class="centrarObj tituloCelda"> DATOS DE REGISTRO DE EMPLEADOS </p>
+            <p class="centrarObj tituloCelda"> Employee register system </p>
 
             <!--contenedor de datos-->
-            <!--<div class="containerEmployee" id="contenedor3"></div>-->
-            <div class="edicionCelda" id="contenedorEmp"></div>
+            <table id="table">
+                <thead id = "headTable" class="backGroundCell, tituloCelda">
+                </thead>
+                <tbody id="bodyTable" class="backGroundCell">
+                </tbody>
+            </table>
+
+            <div class="edicionCelda" id="contenedorEmployee"></div>
+            <div class="edicionCelda" id="contenedorDepartment"></div>
+
             <!--formularios-->
-            <div class="centrarObj">
-                <input type="number" id="id" placeholder="id" onkeyup="validar()">
-                <input type="text" id="first_name" placeholder="first name">
-                <input type="text" id="last_name" placeholder="last name">
+            <div class="centrarObj" >
+                <input type="text" id="firstName" placeholder="first name">
+                <br>
+                <input type="text" id="lastName" placeholder="last name">
+                <br>
                 <input type="text" id="email" placeholder="email">
+                <br>
+                <input type="text" id="department" placeholder="department id">
                 <br>
             </div>
 
             <!--Botones-->
-            <div class="fondIni">
-                <input class="butIni" type="button" value="Mostrar Empleados" id ="getEmployee" onclick="getEmployee()">
-                <input class="butIni" type="button" value="Mostrar Empleados2" id ="getEmployee2" onclick="getEmployee2()">
-                <input class="butIni" type="button" value="Mostrar Empleados3" id ="getEmployee3" onclick="getEmployee3()">
-                <input class="butIni" type="button" value="Registrar empleado" id="btncrear" onclick="crearDatosClient()">
-                <input class="butIni" type="button" value="Actualizar datos de empleado" id="btnactualiza" onclick="actualizarDatosClient()">
+            <div class="fondIni" id="buttonsId">
+                <input class="butIni" type="button" value="Show" id ="getEmployeeFetch2" onclick="getEmployeeFetch2()">
+                <input class="butIni" type="button" value="Register" id="btnCreate" onclick="rootCreateEmp()">
+                <input class="butIni" type="button" value="Edit" id="btnUpdate" onclick="actualizarDatosClient()">
                 <br>
-
             </div>
+
         </div>
     </div>
     <div class="footer">

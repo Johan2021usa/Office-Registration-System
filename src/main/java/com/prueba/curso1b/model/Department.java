@@ -33,5 +33,10 @@ public class Department {
     @OneToMany(mappedBy = "department")
     private List<Employee> employees;
 
+    //Cardinality, one Department has many vehicles
+    @JsonIgnore
+    @OneToMany(mappedBy = "department")
+    private List<Vehicle> vehicles;
+
 
 }

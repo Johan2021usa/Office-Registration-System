@@ -11,16 +11,25 @@ import java.util.List;
 public class DepartmentServiceImpl implements DepartmentService {
 
     //dependency injection not autowired necessary for this class.
-    private DepartmentRepository repository;
+    private DepartmentRepository DepartmentRepository;
 
     public DepartmentServiceImpl(DepartmentRepository repository) {
         super();
-        this.repository = repository;
+        this.DepartmentRepository = repository;
     }
 
+    ////////////////Methods implementation///////////////
     //Implement Get all departments method
     @Override
     public List<Department> getAllDepartments() {
-        return repository.findAll();
+        return DepartmentRepository.findAll();
     }
+
+    //Implementation of Saving Department method
+    @Override
+    public Department saveDepartment(Department department){
+        return DepartmentRepository.save(department);
+    }
+
+
 }
