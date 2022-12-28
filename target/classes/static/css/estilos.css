@@ -1,37 +1,29 @@
-* {
-    box-sizing: border-box;
-  }
+
 .backGround{
-  background-color: #7e4df8;
+  background-image: url("https://blog.vantagecircle.com/content/images/2021/01/Employee-Management-Meaning-Importance-Tips-Tools---More.png");
 }
   
-  .row::after {
-    content: "";
-    clear: both;
-    display: table;
-  }
+[class*="col-"] {
+  float: left;
+  padding: 15px;
+}
   
-  [class*="col-"] {
-    float: left;
-    padding: 15px;
-  }
+html {
+  font-family: "Lucida Sans", sans-serif;
+}
+
+.header {
+  background-color: #523ba8;
+  color: #ffffff;
+  padding: 10px;
+  text-align: center;
+}
   
-  html {
-    font-family: "Lucida Sans", sans-serif;
-  }
-  
-  .header {
-    background-color: #523ba8;
-    color: #ffffff;
-    padding: 10px;
-    text-align: center;
-  }
-  
-  .menu ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-  }
+.menu ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
   
   .menu li{
     padding: 8px;
@@ -98,9 +90,30 @@
     .col-11 {width: 91.66%;}
     .col-12 {width: 100%;}
   }
+
+  .butLink{
+    padding: 10px 10px;
+    text-align: center;
+    font-family: "Luida Sans", sans-serif;
+    color: white;
+    text-decoration: white;
+    display: inline-block;
+  }
+  .butLink:hover{
+    background-color: #9a4bd0;
+    padding: 10px 10px;
+    font-size: 15px;
+    text-align: center;
+    font-family: "Luida Sans", sans-serif;
+    color: white;
+    text-decoration: white;
+    display: inline-block;
+  }
+
   .butIni{
     background-color: rgb(82, 59, 168);
     animation-fill-mode: both;
+    border-width: 1px;
     color: white;
     font-family: "Luida Sans", sans-serif;
     font-size: 20px;
@@ -110,6 +123,20 @@
   .butIni:hover{
     background-color: rgb(126, 77, 248);
  }
+.butInternal{
+  background-color: rgb(82, 59, 168);
+  animation-fill-mode: both;
+  border-width: 1px;
+  color: white;
+  font-family: "Luida Sans", sans-serif;
+  font-size: 15px;
+  margin: 10px;
+  padding: 5px;
+}
+.butInternal:hover{
+  background-color: rgb(126, 77, 248);
+}
+
  .butMenu{
   background-color: rgb(82, 59, 168);
   animation-fill-mode: both;
@@ -130,10 +157,8 @@
     box-shadow: yellow;
     /*margin-left: 25%;*/
   }
-  .flotante{
-    float: left;
-  }
-  .centrarObj{
+
+  .centrarText{
     text-align: center;
     margin-top: 15px;
   }
@@ -148,5 +173,11 @@
     border-color: black;
     text-align: center;
     font-size: 18px;
+  }
+
+  .centerObject{
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
   }
 

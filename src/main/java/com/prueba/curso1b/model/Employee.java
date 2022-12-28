@@ -29,6 +29,8 @@ public class Employee {
     //this foreign key will be annotated with the opposite way (one to many) --> (many to one)
     //The name of this object created has to have the same name of the Mapped option...
     @ManyToOne
+    //JoinColumn determinate who is the child element of the relationship.
+    @JoinColumn(name = "department_id")
     private Department department;
 
     //Cardinality one Employee has one Vehicle.

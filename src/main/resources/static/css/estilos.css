@@ -90,6 +90,26 @@ html {
     .col-11 {width: 91.66%;}
     .col-12 {width: 100%;}
   }
+
+  .butLink{
+    padding: 10px 10px;
+    text-align: center;
+    font-family: "Luida Sans", sans-serif;
+    color: white;
+    text-decoration: white;
+    display: inline-block;
+  }
+  .butLink:hover{
+    background-color: #9a4bd0;
+    padding: 10px 10px;
+    font-size: 15px;
+    text-align: center;
+    font-family: "Luida Sans", sans-serif;
+    color: white;
+    text-decoration: white;
+    display: inline-block;
+  }
+
   .butIni{
     background-color: rgb(82, 59, 168);
     animation-fill-mode: both;
@@ -116,8 +136,6 @@ html {
 .butInternal:hover{
   background-color: rgb(126, 77, 248);
 }
-
-
 
  .butMenu{
   background-color: rgb(82, 59, 168);

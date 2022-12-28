@@ -26,10 +26,12 @@ public class Vehicle {
 
     //Cardinality One employee has one Vehicle
     @OneToOne
+    @JoinColumn(name = "employee_id")
     private Employee employee;
 
     //Cardinality one Department has many vehicles, and Many vehicles has one department.
     @ManyToOne
+    @JoinColumn(name = "department_id")
     private Department department;
 
 }

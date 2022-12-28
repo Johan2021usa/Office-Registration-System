@@ -30,7 +30,11 @@ public class Department {
     //In the other entity we have to define an object with the same name as you defined using Mapped annotation.
     // For this example, it will be "department"
     @JsonIgnore
-    @OneToMany(mappedBy = "department")
+    //mappedBy determines who is the adult in the relationship
+    /*cascade determines whether department is deleted the employee related with it will be deleted as well,
+    * this is important to keep the data integrity, it means there cannot be foreign keys alone.
+    * */
+    @OneToMany(mappedBy = "department",cascade = CascadeType.ALL)
     private List<Employee> employees;
 
     //Cardinality, one Department has many vehicles

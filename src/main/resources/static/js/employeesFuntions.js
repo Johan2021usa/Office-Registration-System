@@ -149,7 +149,6 @@ async function rootCreateEmp(){
     //Requires verify existence
     if (verifyEmptyFields()!=false){
         postEmployeeFetch();
-        getEmployeeFetch2();
         cleanFields();
     }
 }
@@ -169,9 +168,11 @@ async function rootGetEmployeeById(){
 
 //Root update employee
 async function rootUpdateEmployee(){
-    //primary key and foreign key can be modified.
-    //It requires verifying existence
-
+    if (verifyEmptyFieldsUpdate()!=false){
+        updateEmployee();
+        cleanFieldsUpdate();
+        showFieldsUpdate();
+    }
 }
 
 //////////////////////Internal methods for employee////////////////////////////////////
@@ -200,6 +201,7 @@ async function getEmployeeFetch2(){
                         <td>Email</td>
                         <td>Department</td>
                         <td>Delete</td>
+                        <td>Update</td>
                     </tr>
                 `;
 
@@ -213,9 +215,9 @@ async function getEmployeeFetch2(){
                         <td>${employee.firstName}</td>
                         <td>${employee.lastName}</td>
                         <td>${employee.email}</td>
-                        <td>
-                            <button class="butInternal" value="details" onclick="employeeDepartmentDet(${employee.id})">${employee.department.departmentName}</button></td>
+                        <td><button class="butInternal" value="details" onclick="employeeDepartmentDet(${employee.id})">${employee.department.departmentName}</button></td>
                         <td><button class="butInternal" value="delete" onclick="deleteEmployee(${employee.id})">Delete</button></td>
+                        <td><button class="butInternal" value="update" onclick="fillUpFields(${employee.id})">Update</button></td>
                     </tr>
                 `;
             }
@@ -266,9 +268,7 @@ function employeeDepartmentDet(id){
 async function getEmployeeById(){
     let idEmployee = document.getElementById('id').value;
     fetch('http://localhost:8080/api/employees/'+idEmployee)
-        .then(function (response){
-            return response.json();
-        })
+        .then(function (response){return response.json();})
         .then(function (employee) {
 
             let placeholderHead = document.querySelector('#headTable');
@@ -284,6 +284,7 @@ async function getEmployeeById(){
                         <td>Email</td>
                         <td>Department</td>
                         <td>Delete</td>
+                        <td>Update</td>
                     </tr>
                 `;
 
@@ -297,6 +298,7 @@ async function getEmployeeById(){
                     <td>${employee.email}</td>
                     <td><button class="butInternal" value="details" onclick="employeeDepartmentDet(${employee.id})">${employee.department.departmentName}</button></td>
                     <td><button class="butInternal" value="delete" onclick="deleteEmployee(${employee.id})">Delete</button></td>
+                    <td><button class="butInternal" value="update" onclick="fillUpFields(${employee.id})">Update</button></td>
                 `;
             /*innerHTML is a better way to insert information in the html document, in this case the code is adding
             the variable called out, which contains the table looped.
@@ -330,12 +332,12 @@ async function postEmployeeFetch(){
                 "Content-type": "application/json; charset=UTF-8"
             }
         })
-        .then(function (response){
-            return response.json()
-        })
+        .then(function (response){return response.json()})
         .then(function (employee){
             alert("The employee has been created");
+            getEmployeeFetch2();
         })
+
 }
 
 //Delete method with fetch
@@ -347,8 +349,37 @@ async function deleteEmployee(idEmployee){
     })
         .then(response => alert("the employeee has been deleted"))
         .then(getEmployeeFetch2)
-        .catch(err => console.log('Solicitud fallida', err));
+        .catch(err => console.log('It was not possible to delete the employee', err));
 
+}
+
+//Update method with fetch
+async function updateEmployee(){
+    let idEmployeeValUpdate = document.getElementById('idEmployee').value;
+    let firstNameValUpdate = document.getElementById('firstNameUpdate').value;
+    let lastNameValUpdate = document.getElementById('lastNameUpdate').value;
+    let emailValUpdate = document.getElementById('emailUpdate').value;
+
+    fetch('http://localhost:8080/api/employees/'+idEmployeeValUpdate,{
+        //Method type
+        method: 'PUT',
+
+        //Body content
+        body: JSON.stringify({
+            firstName: firstNameValUpdate,
+            lastName: lastNameValUpdate,
+            email: emailValUpdate,
+            department: {idDep: 60}
+        }),
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        }
+    })
+        .then(function (response){return response.json()})
+        .then(function (employee){
+            alert("The employee has been updated");
+            getEmployeeFetch2();
+        })
 }
 ////////////////////////Functional methods for web pages///////////////////////////////////////
 
@@ -388,9 +419,9 @@ function verifyEmptyFields(){
     if(firstNameVal.length >0 && lastNameVal.length >0 && emailVal.length >0 && idDepVal.length >0){
         for (i=0;i<general.length;i++){
             let uniGen = [];
-            uniGen+=general;
+            uniGen+=general[i];
             for(i2=0;i2<uniGen.length;i2++){
-                if(vacio!= uniGen[i2]){
+                if(vacio !== uniGen[0]){
                 }else {
                     alert("don't leave empty fields 1");
                     stop();
@@ -403,6 +434,34 @@ function verifyEmptyFields(){
         return false;
     }
 }
+
+//Verify values inside fields
+function verifyEmptyFieldsUpdate(){
+    let firstNameValUpdate = document.getElementById('firstNameUpdate').value;
+    let lastNameValUpdate = document.getElementById('lastNameUpdate').value;
+    let emailValUpdate = document.getElementById('emailUpdate').value;
+    let generalUpdate = [firstNameValUpdate,lastNameValUpdate,emailValUpdate];
+    let vacio = " ";
+
+    if(firstNameValUpdate.length >0 && lastNameValUpdate.length >0 && emailValUpdate.length >0){
+        for (i=0;i<generalUpdate.length;i++){
+            let uniGen = [];
+            uniGen+=generalUpdate[i];
+            for(i2=0;i2<uniGen.length;i2++){
+                if(vacio !== uniGen[0]){
+                }else {
+                    alert("don't leave empty fields 1");
+                    stop();
+                    return false;
+                }
+            }
+        }
+    }else {
+        alert("don't leave empty fields 2");
+        return false;
+    }
+}
+
 //Verify empty fields in search button
 function verifyEmptyIdField(){
     let idEmployee = document.getElementById('id').value;
@@ -443,9 +502,19 @@ function cleanFields(){
     idDepVal.value = vacio;
 }
 
-//Verify existence
-function verifyExistenceEmp(){
-
+//Clean fields update form
+function cleanFieldsUpdate(){
+    let idEmployeeUpdate = document.getElementById('idEmployee');
+    let firstNameValUpdate = document.getElementById('firstNameUpdate');
+    let lastNameValUpdate = document.getElementById('lastNameUpdate');
+    let emailValUpdate = document.getElementById('emailUpdate');
+    let empty = "";
+    /*The difference between innerHTML and value is, the last one insert a value of an attribute into a html element,
+    when we want to add text into a field we have to use field.value = "text"*/
+    idEmployeeUpdate.value = empty;
+    firstNameValUpdate.value = empty;
+    lastNameValUpdate.value = empty;
+    emailValUpdate.value = empty;
 }
 
 function showFields(){
@@ -465,7 +534,6 @@ function showFields(){
         divFields.setAttribute("hidden", "hidden");
         buttonShow.setAttribute('value','Create register')
     }
-
 }
 
 function showSearch(){
@@ -480,6 +548,40 @@ function showSearch(){
         divFieldId.setAttribute('hidden','hidden');
         buttonSearch.setAttribute('value', 'search');
     }
+}
+
+function showFieldsUpdate(){
+    //This command selects the div which contains the fields
+    let divFieldsUpdate = document.getElementById('fieldsUpdateEmp');
+    //This command selects a button of document
+    let buttonCancelUpdate = document.getElementById('btnCancelUpdate');
+    //This command chooses attributes of a div: hidden = "hidden"
+    let property = divFieldsUpdate.getAttribute('hidden');
+
+    //if property (hidden = hidden) remove property hidden
+    if(property) {
+        divFieldsUpdate.removeAttribute('hidden');
+        //set an attribute "value" as "close" = value = "close"
+        buttonCancelUpdate.setAttribute('value', 'Cancel Update');
+    }else {
+        divFieldsUpdate.setAttribute('hidden','hidden');
+    }
+}
+
+function fillUpFields(id){
+    fetch('http://localhost:8080/api/employees/'+id)
+        .then(function (response){return response.json();})
+        .then(function (employee) {
+            let idEmployeeVal = document.getElementById('idEmployee');
+            let firstNameVal = document.getElementById('firstNameUpdate');
+            let lastNameVal = document.getElementById('lastNameUpdate');
+            let emailVal = document.getElementById('emailUpdate');
+
+            idEmployeeVal.value = employee.id;
+            firstNameVal.value = employee.firstName;
+            lastNameVal.value = employee.lastName;
+            emailVal.value = employee.email;
+        }).then(showFieldsUpdate)
 }
 /*Annotations
 Check them out then

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="application/json">
+
+    <link rel="stylesheet" href="css/estilos.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="js/employeesFuntions.js"></script>
+
+    <title>Employee</title>
+</head>
+
+<body class="backGround">
+    <menu class="header">
+        <!--Menu-->
+        <a href="department.html" class="butLink">Department</a>
+        <a href="employee.html" class="butLink">Home</a>
+        <a href="vehicle.html" class="butLink">Vehicle</a>
+    </menu>
+
+    <!--Div header-->
+    <div class="header">
+        <h1>Employee register system</h1>
+        <!--titulo principal-->
+    </div>
+
+    <!--Div Container-->
+    <div>
+        <div>
+            <!--contenedor de datos-->
+            <table id="table" class="centerObject">
+                <thead id = "headTable" class="backGroundCell tituloCelda">
+                </thead>
+                <tbody id="bodyTable" class="backGroundCell">
+                </tbody>
+            </table>
+
+            <!--form create employee-->
+            <div class="centrarText" id ="fieldsEmp" hidden="hidden">
+                <input type="text" id="firstName" placeholder="first name"><br>
+                <input type="text" id="lastName" placeholder="last name"><br>
+                <input type="text" id="email" placeholder="email"><br>
+                <input type="text" id="department" placeholder="department id"><br>
+                <input class="butIni" type="button" value="Confirm create" id="btnCreate" onclick="rootCreateEmp()">
+            </div>
+
+            <!--Form update employee fields-->
+            <div class="centrarText" id ="fieldsUpdateEmp" hidden="hidden">
+                <input type="text" id="idEmployee" placeholder="Id Employee" hidden="hidden"><br>
+                <input type="text" id="firstNameUpdate" placeholder="first name"><br>
+                <input type="text" id="lastNameUpdate" placeholder="last name"><br>
+                <input type="text" id="emailUpdate" placeholder="email"><br>
+                <input class="butIni" type="button" value="Confirm Update" id="btnUpdate" onclick="rootUpdateEmployee()">
+                <input class="butIni" type="button" value="Cancel Update" id="btnCancelUpdate" onclick="showFieldsUpdate()">
+            </div>
+
+            <!--form search by id-->
+            <div class="centrarText" id ="fieldId" hidden="hidden">
+                <p class="footer">!Please! Insert an employee's id to search it in the system.</p>
+                <input type="text" id="id" placeholder="id">
+                <input class="butIni" type="button" value="Confirm" id="btnConfirm" onclick="rootGetEmployeeById()">
+            </div>
+
+        </div>
+
+        <!--Buttons-->
+        <div class="fondIni" id="buttonsId">
+            <input class="butIni" type="button" value="Show Registers" id ="getEmployeeFetch2" onclick="getEmployeeFetch2()">
+            <input class="butIni" type="button" value="Create register" id="btnShow" onclick="showFields()">
+            <input class="butIni" type="button" value="Search" id="btnSearch" onclick="showSearch()">
+            <br>
+        </div>
+
+
+    </div>
+    <!--Div footer-->
+    <div class="footer">
+        <p>With this application you can register your employees into a database or see a list of registers,
+            as well as delete them or update their information,<br>
+            and last but not least, you can search any employee if you know his id.<br></p>
+
+        <p><h4>Developer: </h4>Johan Lasso</p>
+
+        <h4>Technologies used:</h4>
+        <p5>back-end: Spring Boot, Spring Data JPA (Hibernate), MySql, Java, Lombok, Maven, Devtools<br>
+            Front-end: JavaScript, HTML, CSS</p5>
+    </div>
+</body>
+</html>

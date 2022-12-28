@@ -20,6 +20,4 @@ public interface EmployeeService {
 
     //Method designed to (delete an employee), it requires to be implemented in EmployeeServiceImpl
     void deleteEmployee(long id);
-
-
 }

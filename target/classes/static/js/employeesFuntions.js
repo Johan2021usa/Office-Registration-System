@@ -149,21 +149,26 @@ async function rootCreateEmp(){
     //Requires verify existence
     if (verifyEmptyFields()!=false){
         postEmployeeFetch();
-        getEmployeeFetch2();
         cleanFields();
+    }
+}
 
+//Root get employee by id
+async function rootGetEmployeeById(){
+    if(verifyNumber()){
+        if(verifyEmptyIdField()!=false){
+            getEmployeeById();
+        }else {
+            stop();
+        }
+    }else {
+        stop();
     }
 }
 
 //Root update employee
 async function rootUpdateEmployee(){
     //primary key and foreign key can be modified.
-    //It requires verifying existence
-}
-
-//Root delete employee
-async function rootdeleteEmployee(){
-    //Cardinality one to one, both has to be deleted, foreign keys can be left alone.
     //It requires verifying existence
 
 }
@@ -172,6 +177,7 @@ async function rootdeleteEmployee(){
 
 //get employee method
 async function getEmployeeFetch2(){
+    closeTable();
     //This line sends and promise to that url, by defect the method is get, if you wan
     fetch(api_url)
         //this line gets a response and put those values into a resp variable
@@ -182,12 +188,8 @@ async function getEmployeeFetch2(){
         .then(function (employees){
             let placeholderHead = document.querySelector('#headTable');
             let placeholder = document.querySelector('#bodyTable');
-            let bottonHolder = document.querySelector('#buttonsId');
             let out = "";
-                out +=`<input class="butIni" type="button" value="close table" id="btnUpdate" onclick="closeTable()">`;
-                // bottonHolder.innerHTML += out;
-                // out ="",
-
+                out +=`<input class="butIni" type="button" value="close registers" id="btnUpdate" onclick="closeTable()">`;
 
                 out +=`
                     <tr class="backGroundCell">
@@ -195,7 +197,7 @@ async function getEmployeeFetch2(){
                         <td>first name</td>
                         <td>Last name</td>
                         <td>Email</td>
-                        <td>Department details</td>
+                        <td>Department</td>
                         <td>Delete</td>
                     </tr>
                 `;
@@ -210,8 +212,8 @@ async function getEmployeeFetch2(){
                         <td>${employee.firstName}</td>
                         <td>${employee.lastName}</td>
                         <td>${employee.email}</td>
-                        <td><button class="butIni" value="details" onclick="employeeDepartmentDet(${employee.id})">show</button>${employee.department.departmentName}</td>
-                        <td><button class="butIni" value="delete" onclick="deleteEmployee(${employee.id})">Delete</button></td>
+                        <td><button class="butInternal" value="details" onclick="employeeDepartmentDet(${employee.id})">${employee.department.departmentName}</button></td>
+                        <td><button class="butInternal" value="delete" onclick="deleteEmployee(${employee.id})">Delete</button></td>
                     </tr>
                 `;
             }
@@ -231,6 +233,7 @@ function employeeDepartmentDet(id){
             let placeholderHead = document.querySelector('#headTable');
             let placeholder = document.querySelector('#bodyTable');
             let out = "";
+            out +=`<input class="butIni" type="button" value="close registers" id="btnUpdate" onclick="closeTable()">`;
 
             out += `
                     <tr class="backGroundCell">
@@ -257,6 +260,50 @@ function employeeDepartmentDet(id){
         })
 }
 
+//Get employee by id method
+async function getEmployeeById(){
+    let idEmployee = document.getElementById('id').value;
+    fetch('http://localhost:8080/api/employees/'+idEmployee)
+        .then(function (response){return response.json();})
+        .then(function (employee) {
+
+            let placeholderHead = document.querySelector('#headTable');
+            let placeholder = document.querySelector('#bodyTable');
+            let out = "";
+            out +=`<input class="butIni" type="button" value="close registers" id="btnUpdate" onclick="closeTable()">`;
+
+            out += `
+                    <tr class="backGroundCell">
+                        <td>Id employee</td>
+                        <td>first name</td>
+                        <td>Last name</td>
+                        <td>Email</td>
+                        <td>Department</td>
+                        <td>Delete</td>
+                    </tr>
+                `;
+
+            placeholderHead.innerHTML = out;
+            //Here the variable out which will be insert into the html document using innerHTML is cleaned.
+            out = "";
+            out += `
+                    <td>${employee.id}</td>
+                    <td>${employee.firstName}</td>
+                    <td>${employee.lastName}</td>
+                    <td>${employee.email}</td>
+                    <td><button class="butInternal" value="details" onclick="employeeDepartmentDet(${employee.id})">${employee.department.departmentName}</button></td>
+                    <td><button class="butInternal" value="delete" onclick="deleteEmployee(${employee.id})">Delete</button></td>
+                `;
+            /*innerHTML is a better way to insert information in the html document, in this case the code is adding
+            the variable called out, which contains the table looped.
+            * */
+            placeholder.innerHTML = out;
+        }).catch(err => {
+            alert("the employee doesn't exist");
+            closeTable();
+    });
+}
+
 //Post method with fetch
 async function postEmployeeFetch(){
     let firstNameVal = document.getElementById('firstName').value;
@@ -279,12 +326,17 @@ async function postEmployeeFetch(){
                 "Content-type": "application/json; charset=UTF-8"
             }
         })
-        .then(function (response){
-            return response.json()
-        })
+        .then(function (response){return response.json()})
         .then(function (employee){
+           if(employee.status)
+            switch (employee.status){
+                case 500:
+                    alert("THE DEPARTMENT DOESN'T EXIST");
+            }
             alert("The employee has been created");
+            getEmployeeFetch2();
         })
+
 }
 
 //Delete method with fetch
@@ -296,7 +348,7 @@ async function deleteEmployee(idEmployee){
     })
         .then(response => alert("the employeee has been deleted"))
         .then(getEmployeeFetch2)
-        .catch(err => console.log('Solicitud fallida', err));
+        .catch(err => console.log('It was not possible to delete the employee', err));
 
 }
 ////////////////////////Functional methods for web pages///////////////////////////////////////
@@ -314,6 +366,17 @@ function closeTable(){
 
 }
 
+//Verify if value is a number
+function verifyNumber(){
+    let fieldValue = document.getElementById('id').value;
+    let intValue = parseInt(fieldValue);
+    if (!isNaN(intValue)){
+        return true;
+    }else {
+        alert("Only numbers are allowed");
+    }
+}
+
 //Verify values inside fields
 function verifyEmptyFields(){
     let firstNameVal = document.getElementById('firstName').value;
@@ -324,6 +387,30 @@ function verifyEmptyFields(){
     let vacio = " ";
 
     if(firstNameVal.length >0 && lastNameVal.length >0 && emailVal.length >0 && idDepVal.length >0){
+        for (i=0;i<general.length;i++){
+            let uniGen = [];
+            uniGen+=general[i];
+            for(i2=0;i2<uniGen.length;i2++){
+                if(vacio !== uniGen[0]){
+                }else {
+                    alert("don't leave empty fields 1");
+                    stop();
+                    return false;
+                }
+            }
+        }
+    }else {
+        alert("don't leave empty fields 2");
+        return false;
+    }
+}
+//Verify empty fields in search button
+function verifyEmptyIdField(){
+    let idEmployee = document.getElementById('id').value;
+    let general = idEmployee;
+    let vacio = " ";
+
+    if(idEmployee.length >0){
         for (i=0;i<general.length;i++){
             let uniGen = [];
             uniGen+=general;
@@ -360,6 +447,40 @@ function cleanFields(){
 //Verify existence
 function verifyExistenceEmp(){
 
+}
+
+function showFields(){
+    //This command selects the div which contains the fields
+    let divFields = document.getElementById('fieldsEmp');
+    //This command selects a button of document
+    let buttonShow = document.getElementById('btnShow');
+    //This command chooses attributes of a div: hidden = "hidden"
+    let property = divFields.getAttribute('hidden');
+
+    //if property (hidden = hidden) remove property hidden
+    if(property) {
+        divFields.removeAttribute('hidden');
+        //set an attribute "value" as "close" = value = "close"
+        buttonShow.setAttribute('value', 'Cancel register')
+    }else {
+        divFields.setAttribute("hidden", "hidden");
+        buttonShow.setAttribute('value','Create register')
+    }
+
+}
+
+function showSearch(){
+    let divFieldId = document.getElementById('fieldId');
+    let buttonSearch = document.getElementById('btnSearch');
+    let property = divFieldId.getAttribute('hidden');
+
+    if (property){
+        divFieldId.removeAttribute('hidden');
+        buttonSearch.setAttribute('value', 'Cancel search');
+    }else {
+        divFieldId.setAttribute('hidden','hidden');
+        buttonSearch.setAttribute('value', 'search');
+    }
 }
 /*Annotations
 Check them out then

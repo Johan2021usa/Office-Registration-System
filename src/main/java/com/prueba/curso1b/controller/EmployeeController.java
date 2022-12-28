@@ -38,7 +38,6 @@ public class EmployeeController {
 
     //////BUILD GET ALL EMPLOYEE (REST API) (GET ALL EMPLOYEE)////////////////
     //List will handle a collection of objects or data.
-
     @GetMapping //GetMapping is going to handle HTTP get request.
     //@CrossOrigin(origins = "http://localhost:8080/api/employees")
     public List<Employee> getAllEmployees(){
