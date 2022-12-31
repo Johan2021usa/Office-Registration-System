@@ -1,5 +1,5 @@
 //Funciones employess, here we are going to consume API REST, Making HttpRequest
-const api_url = 'http://localhost:8080/api/employees'
+const api_url = 'http://134.65.16.219:8080/api/employees'
 
 // //Get employees #1
 // //Get method using AJAX
@@ -227,7 +227,7 @@ async function getEmployeeFetch2(){
 
 //Get employee's department
 function employeeDepartmentDet(id){
-    fetch('http://localhost:8080/api/employees/'+id)
+    fetch('http://134.65.16.219:8080/api/employees/'+id)
         .then(function (response){
             return response.json();
         })
@@ -267,7 +267,7 @@ function employeeDepartmentDet(id){
 //Get employee by id method
 async function getEmployeeById(){
     let idEmployee = document.getElementById('id').value;
-    fetch('http://localhost:8080/api/employees/'+idEmployee)
+    fetch('http://134.65.16.219:8080/api/employees/'+idEmployee)
         .then(function (response){return response.json();})
         .then(function (employee) {
 
@@ -343,7 +343,7 @@ async function postEmployeeFetch(){
 //Delete method with fetch
 async function deleteEmployee(idEmployee){
     //let idEmployee = document.getElementById()
-    fetch('http://localhost:8080/api/employees/'+idEmployee,{
+    fetch('http://134.65.16.219:8080/api/employees/'+idEmployee,{
         method: 'DELETE',
         headers: {"Content-type": "application/json; charset=UTF-8"}
     })
@@ -360,7 +360,7 @@ async function updateEmployee(){
     let lastNameValUpdate = document.getElementById('lastNameUpdate').value;
     let emailValUpdate = document.getElementById('emailUpdate').value;
 
-    fetch('http://localhost:8080/api/employees/'+idEmployeeValUpdate,{
+    fetch('http://134.65.16.219:8080/api/employees/'+idEmployeeValUpdate,{
         //Method type
         method: 'PUT',
 
@@ -569,7 +569,7 @@ function showFieldsUpdate(){
 }
 
 function fillUpFields(id){
-    fetch('http://localhost:8080/api/employees/'+id)
+    fetch('http://134.65.16.219:8080/api/employees/'+id)
         .then(function (response){return response.json();})
         .then(function (employee) {
             let idEmployeeVal = document.getElementById('idEmployee');
