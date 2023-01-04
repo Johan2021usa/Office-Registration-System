@@ -1,4 +1,4 @@
-const api_url = 'http://localhost:8080/api/departments';
+const api_url = 'http://134.65.16.219:8080/api/departments';
 
 // if(employee.status)
 //     switch (employee.status){
@@ -74,7 +74,7 @@ async function getDepartments(){
 //Delete method with fetch
 async function deleteDepartment(idDep){
     //let idEmployee = document.getElementById()
-    fetch('http://localhost:8080/api/departments/'+idDep,{
+    fetch('http://134.65.16.219:8080/api/departments/'+idDep,{
         method: 'DELETE',
         headers: {"Content-type": "application/json; charset=UTF-8"}
     })
@@ -116,7 +116,7 @@ async function postDepartment(){
 //Get department by id
 async function getDepartmentById(){
     let idDepartment = document.getElementById("idDep").value;
-    fetch('http://localhost:8080/api/departments/'+idDepartment)
+    fetch('http://134.65.16.219:8080/api/departments/'+idDepartment)
         .then(function (response){
             return response.json();
         })
