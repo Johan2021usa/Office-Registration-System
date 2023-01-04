@@ -1,5 +1,10 @@
 const api_url = 'http://localhost:8080/api/departments';
 
+// if(employee.status)
+//     switch (employee.status){
+//         case 500:
+//             alert("THE DEPARTMENT DOESN'T EXIST");
+//     }
 //////////////////////Root Methods for departments///////////////////////////////////////
 //Root create department
 function rootCreateDep(){
@@ -120,7 +125,6 @@ async function getDepartmentById(){
                 alert("The department doesn't exist");
                 stop();
             }
-
         }).catch(errDep => {
            alert("The department doesn't exist");
            closeTableDep();

@@ -45,7 +45,17 @@
                 <input type="text" id="lastName" placeholder="last name"><br>
                 <input type="text" id="email" placeholder="email"><br>
                 <input type="text" id="department" placeholder="department id"><br>
-                <input class="butIni" type="button" value="Confirm Register" id="btnCreate" onclick="rootCreateEmp()">
+                <input class="butIni" type="button" value="Confirm create" id="btnCreate" onclick="rootCreateEmp()">
+            </div>
+
+            <!--Form update employee fields-->
+            <div class="centrarText" id ="fieldsUpdateEmp" hidden="hidden">
+                <input type="text" id="idEmployee" placeholder="Id Employee" hidden="hidden"><br>
+                <input type="text" id="firstNameUpdate" placeholder="first name"><br>
+                <input type="text" id="lastNameUpdate" placeholder="last name"><br>
+                <input type="text" id="emailUpdate" placeholder="email"><br>
+                <input class="butIni" type="button" value="Confirm Update" id="btnUpdate" onclick="rootUpdateEmployee()">
+                <input class="butIni" type="button" value="Cancel Update" id="btnCancelUpdate" onclick="showFieldsUpdate()">
             </div>
 
             <!--form search by id-->

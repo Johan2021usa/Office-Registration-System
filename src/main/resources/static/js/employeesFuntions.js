@@ -569,7 +569,7 @@ function showFieldsUpdate(){
 }
 
 function fillUpFields(id){
-    fetch('http://134.65.16.219:8080/api/employees/'+id)
+    fetch('http://134.65.16.219/api/employees/'+id)
         .then(function (response){return response.json();})
         .then(function (employee) {
             let idEmployeeVal = document.getElementById('idEmployee');
