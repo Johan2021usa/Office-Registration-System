@@ -1,4 +1,4 @@
-const api_url = 'http://134.65.16.219:8080/api/departments';
+const api_url = 'http://localhost:8080/api/departments';
 
 // if(employee.status)
 //     switch (employee.status){
@@ -8,11 +8,6 @@ const api_url = 'http://134.65.16.219:8080/api/departments';
 //////////////////////Root Methods for departments///////////////////////////////////////
 //Root create department
 function rootCreateDep(){
-    //Requires verify existence
-    // switch (verifyEmptyFieldsDep()){
-    //     case !false:
-    //         postDepartment();
-    // }
     if(verifyEmptyFieldsDep()!==false){
         postDepartment();
         cleanFieldsDep();
@@ -36,10 +31,13 @@ async function getDepartments(){
     //This line sends and promise to that url, by defect the method is get, if you wan
     fetch(api_url)
         //this line gets a response and put those values into a resp variable
-        .then(function (resp){
+        .then(
+            //here we are going to create a method or functions that receives a response and converts it into a Json format, this is an clear way to show how promises works.
+            function (resp){
             //This line becomes resp into a JSON object
-            return resp.json();
-        })
+                return resp.json();
+            }
+        )
         .then(function (departments){
             let placeholderHead = document.querySelector('#headTableDep');
             let placeholder = document.querySelector('#bodyTableDep');
@@ -76,12 +74,14 @@ async function getDepartments(){
 //Delete method with fetch
 async function deleteDepartment(idDep){
     //let idEmployee = document.getElementById()
-    fetch('http://134.65.16.219:8080/api/departments/'+idDep,{
+    fetch('http://localhost:8080/api/departments/'+idDep,{
         method: 'DELETE',
         headers: {"Content-type": "application/json; charset=UTF-8"}
     })
-        .then(response => alert("the department has been deleted"))
-        .then(getDepartments)
+        .then(response => {
+            alert("the department has been deleted");
+            getDepartments();
+        })
         .catch(err => alert('It was not possible to delete the department'));
 
 }
@@ -105,8 +105,9 @@ async function postDepartment(){
         headers: {
             "Content-type": "application/json; charset=UTF-8"
         }
-    }).then(function (response){return response.json();})
-        .then(function (department){
+    })
+        .then(function (response){
+            return response.json();
             alert("The department has been created");
             getDepartments();
         })
@@ -115,20 +116,19 @@ async function postDepartment(){
 //Get department by id
 async function getDepartmentById(){
     let idDepartment = document.getElementById("idDep").value;
-    fetch('http://134.65.16.219:8080/api/departments/'+idDepartment)
-        .then(function (response){return response.json();})
+    fetch('http://localhost:8080/api/departments/'+idDepartment)
+        .then(function (response){
+            return response.json();
+        })
         .then(function (department){
-
+            //it's other way to compare the status 200/201 etc.
             if(typeof department.idDep === "number"){
                 tableCreatorById(department);
             }else{
-                alert("The department doesn't exist");
+                alert("The department's id doesn't exist");
                 stop();
             }
-        }).catch(errDep => {
-           alert("The department doesn't exist");
-           closeTableDep();
-    });
+        })
 }
 
 ////////////////////////Functional methods for web pages///////////////////////////////////////
@@ -249,6 +249,7 @@ function showFieldsDep(){
     }
 
 }
+
 //Show field search by id
 function showSearchDep(){
     let divFieldId = document.getElementById('fieldIdDep');

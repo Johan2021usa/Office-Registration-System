@@ -1,5 +1,5 @@
 //Funciones employess, here we are going to consume API REST, Making HttpRequest
-const api_url = 'http://134.65.16.219:8080/api/employees'
+const api_url = 'http://localhost:8080/api/employees'
 
 // //Get employees #1
 // //Get method using AJAX
@@ -155,14 +155,12 @@ async function rootCreateEmp(){
 
 //Root get employee by id
 async function rootGetEmployeeById(){
-    if(verifyNumber()){
-        if(verifyEmptyIdField()!=false){
-            getEmployeeById();
-        }else {
-            stop();
-        }
-    }else {
-        stop();
+    switch (verifyEmptyIdField()){
+        case !false:
+            switch (verifyNumber()){
+                case true:
+                    getEmployeeById();
+            }
     }
 }
 
@@ -179,7 +177,6 @@ async function rootUpdateEmployee(){
 
 //get employee method
 async function getEmployeeFetch2(){
-    closeTable();
     //This line sends and promise to that url, by defect the method is get, if you wan
     fetch(api_url)
         //this line gets a response and put those values into a resp variable
@@ -227,7 +224,7 @@ async function getEmployeeFetch2(){
 
 //Get employee's department
 function employeeDepartmentDet(id){
-    fetch('http://134.65.16.219:8080/api/employees/'+id)
+    fetch('http://localhost:8080/api/employees/'+id)
         .then(function (response){
             return response.json();
         })
@@ -267,8 +264,10 @@ function employeeDepartmentDet(id){
 //Get employee by id method
 async function getEmployeeById(){
     let idEmployee = document.getElementById('id').value;
-    fetch('http://134.65.16.219:8080/api/employees/'+idEmployee)
-        .then(function (response){return response.json();})
+    fetch('http://localhost:8080/api/employees/'+idEmployee)
+        .then(function (response){
+            return response.json();
+        })
         .then(function (employee) {
 
             let placeholderHead = document.querySelector('#headTable');
@@ -332,25 +331,29 @@ async function postEmployeeFetch(){
                 "Content-type": "application/json; charset=UTF-8"
             }
         })
-        .then(function (response){return response.json()})
-        .then(function (employee){
-            alert("The employee has been created");
-            getEmployeeFetch2();
+        .then(function (response){
+            if (response.status==201) {
+                alert("The employee has been created");
+                getEmployeeFetch2();
+            }
+            if (response.status==500){
+                alert("The department's id doesn't exist");
+            }
         })
-
 }
 
 //Delete method with fetch
 async function deleteEmployee(idEmployee){
     //let idEmployee = document.getElementById()
-    fetch('http://134.65.16.219:8080/api/employees/'+idEmployee,{
+    fetch('http://localhost:8080/api/employees/'+idEmployee,{
         method: 'DELETE',
         headers: {"Content-type": "application/json; charset=UTF-8"}
     })
-        .then(response => alert("the employeee has been deleted"))
-        .then(getEmployeeFetch2)
-        .catch(err => console.log('It was not possible to delete the employee', err));
-
+    .then(response => {
+        alert("the employeee has been deleted");
+        getEmployeeFetch2();
+    })
+    .catch(err => alert('It was not possible to delete the employee', err));
 }
 
 //Update method with fetch
@@ -360,7 +363,7 @@ async function updateEmployee(){
     let lastNameValUpdate = document.getElementById('lastNameUpdate').value;
     let emailValUpdate = document.getElementById('emailUpdate').value;
 
-    fetch('http://134.65.16.219:8080/api/employees/'+idEmployeeValUpdate,{
+    fetch('http://localhost:8080/api/employees/'+idEmployeeValUpdate,{
         //Method type
         method: 'PUT',
 
@@ -375,11 +378,11 @@ async function updateEmployee(){
             "Content-type": "application/json; charset=UTF-8"
         }
     })
-        .then(function (response){return response.json()})
-        .then(function (employee){
-            alert("The employee has been updated");
-            getEmployeeFetch2();
-        })
+    .then(function (response){
+        response.json();
+        alert("The employee has been updated");
+        getEmployeeFetch2();
+    })
 }
 ////////////////////////Functional methods for web pages///////////////////////////////////////
 
@@ -474,6 +477,7 @@ function verifyEmptyIdField(){
             uniGen+=general;
             for(i2=0;i2<uniGen.length;i2++){
                 if(vacio!= uniGen[i2]){
+                    return true;
                 }else {
                     alert("don't leave empty fields 1");
                     stop();
@@ -569,7 +573,7 @@ function showFieldsUpdate(){
 }
 
 function fillUpFields(id){
-    fetch('http://134.65.16.219/api/employees/'+id)
+    fetch('http://localhost:8080/api/employees/'+id)
         .then(function (response){return response.json();})
         .then(function (employee) {
             let idEmployeeVal = document.getElementById('idEmployee');

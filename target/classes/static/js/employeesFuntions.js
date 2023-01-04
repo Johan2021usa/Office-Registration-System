@@ -569,7 +569,7 @@ function showFieldsUpdate(){
 }
 
 function fillUpFields(id){
-    fetch('http://localhost/api/employees/'+id)
+    fetch('http://localhost:8080/api/employees/'+id)
         .then(function (response){return response.json();})
         .then(function (employee) {
             let idEmployeeVal = document.getElementById('idEmployee');
