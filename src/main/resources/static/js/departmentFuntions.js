@@ -106,11 +106,13 @@ async function postDepartment(){
             "Content-type": "application/json; charset=UTF-8"
         }
     })
-        .then(function (response){
-            return response.json();
-            alert("The department has been created");
-            getDepartments();
-        })
+    .then(function (response){
+        switch (response.status){
+            case 201:
+                alert("The department has been created");
+                getDepartments();
+        }
+    })
 }
 
 //Get department by id
