@@ -50,7 +50,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     //*** bc of that we became the Entity as optional; otherwise, if the id is not found, the method will handle the exception,
     //*** with the ResourceNotFoundException method created previously.
     @Override
-    public Employee getEmployeeById(Long id) {
+    public Employee getEmployeeById(long id) {
         // WAY NUMBER 1
         //findById = return an optional object --> Optional<Employee>
 //        Optional<Employee> employee = employeeRepository.findById(id);

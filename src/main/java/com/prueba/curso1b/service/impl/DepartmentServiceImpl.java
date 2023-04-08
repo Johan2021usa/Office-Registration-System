@@ -2,7 +2,6 @@ package com.prueba.curso1b.service.impl;
 
 import com.prueba.curso1b.exception.ResourceNotFoundException;
 import com.prueba.curso1b.model.Department;
-import com.prueba.curso1b.model.Employee;
 import com.prueba.curso1b.repository.DepartmentRepository;
 import com.prueba.curso1b.service.DepartmentService;
 import org.springframework.stereotype.Service;
@@ -35,7 +34,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     //Implementation of GetDepartmentById method
     @Override
-    public Department getDepartmentById(Long id){
+    public Department getDepartmentById(long id){
 //        return departmentRepository.findById(id).orElse(null);
         return  departmentRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Department", "ID", id));
     }
@@ -51,7 +50,6 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public Department updateDepartment(Department department, long id){
         Department foundDepartment = departmentRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Department", "ID", id));
-        foundDepartment.setIdDep(department.getIdDep());
         foundDepartment.setDepartmentName(department.getDepartmentName());
         foundDepartment.setDepartmentSalary(department.getDepartmentSalary());
         foundDepartment.setDepartmentLevel(department.getDepartmentLevel());

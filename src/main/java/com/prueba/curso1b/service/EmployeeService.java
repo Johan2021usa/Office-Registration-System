@@ -13,7 +13,7 @@ public interface EmployeeService {
     List<Employee> getAllEmployees(); // Post man receive all employee and parameters registered in the database.
 
     //Method designed to (GET AN EMPLOYEE BY ID), it needs to be implemented in EmployeeServiceImpl
-    Employee getEmployeeById(Long id); //Postman sends an id to get a specific employee and his parameters.
+    Employee getEmployeeById(long id); //Postman sends an id to get a specific employee and his parameters.
 
     //Method designed to (Update an Employee), it needs to be implemented in EmployeeServiceImpl
     Employee updateEmployee(Employee employee, long id);

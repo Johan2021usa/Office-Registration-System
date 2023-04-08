@@ -25,21 +25,36 @@ public class Department {
     @Column(name = "department_level")
     private String departmentLevel;
 
-    //Cardinality sort is (One department can have many employees) and (One employee can have only one department)
-    //MappedBy is used to define the name of the foreign key which will be related with the other entity,
-    //In the other entity we have to define an object with the same name as you defined using Mapped annotation.
-    // For this example, it will be "department"
+    //---------------------------------------------------------------------------------------------------------------------------------
+    /** Cardinality: (Department: One to many: Employees)
+     * (Parent)
+     * One Department might have many Employees and one Employee can only have one Department.
+     * Parent (Department). child (Vehicles).
+     * Inside of child entity we have to declare an object with the same name defined in the MappedBy annotation,
+     * For this example, it will be: private Department department;
+     */
+
+    /** JsonIgnore, MappedBy and Cascade:
+     * JsonIgnore: Avoids a column is created each time we run the project
+     * mappedBy: determines who is the adult in the relationship
+     * cascade: determines whether department is deleted, employee or employees related with this entity will be deleted too,
+     * this allows us to keep the data integrity, it means there cannot be foreign keys alone.
+     * */
     @JsonIgnore
-    //mappedBy determines who is the adult in the relationship
-    /*cascade determines whether department is deleted the employee related with it will be deleted as well,
-    * this is important to keep the data integrity, it means there cannot be foreign keys alone.
-    * */
     @OneToMany(mappedBy = "department",cascade = CascadeType.ALL)
+    /**Object  created:
+     * The object created in the parent entity has to receive a list (many) of employees.
+     * */
     private List<Employee> employees;
 
-    //Cardinality, one Department has many vehicles
+    //---------------------------------------------------------------------------------------------------------------------------------
+    /** Cardinality: (Department: one to many: Vehicles)
+     * (Parent)
+     * one Department might have many Vehicles
+     * Parent (Department). child (Vehicles)
+     * */
     @JsonIgnore
-    @OneToMany(mappedBy = "department")
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
     private List<Vehicle> vehicles;
 
 

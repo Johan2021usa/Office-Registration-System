@@ -14,14 +14,12 @@ public interface DepartmentService {
     Department saveDepartment(Department department);
 
     //Method (Get department by id)
-    Department getDepartmentById(Long id);
+    Department getDepartmentById(long id);
 
     //Method (Delete department)
     void deleteDepartment(long id);
 
     //Method (Update Department)
     Department updateDepartment(Department department, long id);
-
-
 
 }
