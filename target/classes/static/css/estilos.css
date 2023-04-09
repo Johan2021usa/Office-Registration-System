@@ -15,10 +15,8 @@ html {
   background-color: #523ba8;
   color: #ffffff;
   display: grid;
-  grid-template-columns: 45% 45%;
+  grid-template-columns: 50% 50%;
   position: fixed;
-  padding-left: 20px;
-  padding-right: 20px;
   height: 50px;
   width: 100%;
   top: 0;
@@ -27,6 +25,8 @@ html {
 .nav-left{
   display: flex;
   align-items: center;
+  place-content: initial;
+  padding-left: 20%;
 }
 .icons{
   height: 40px;
@@ -37,13 +37,19 @@ html {
   margin-left: 5px;
   font-size: 20px;
 }
-
 .nav-right{
   display: flex;
-  place-content: end;
   align-items: center;
+  place-content: end;
+  padding-right: 20%;
 }
-
+@keyframes appearTitleSmoothly {
+  from{
+    transform: translateX(-300px);
+  }to{
+    transform: translateX(0);
+     }
+}
 .header-title {
   background-color: rgba(82, 59, 168, 0.7);
   color: #ffffff;
@@ -52,16 +58,15 @@ html {
   font-size: xxx-large;
   margin-top: 60px;
   padding: 15px;
-}
 
-/* Animation frame*/
-@keyframes appearSmoothly {
-  from{
-    transform: translateY(-300px);
-  }
-  to{
-    transform: translateY(0);
-  }
+  /*Animation settings*/
+  animation-name: appearTitleSmoothly;
+  animation-duration: 1s;
+  animation-delay: 0s;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+  animation-fill-mode: none;
+
 }
 
 .tableCenter{
@@ -72,6 +77,15 @@ html {
   place-content: center;
 }
 
+/* Animation Table-frame*/
+@keyframes appearSmoothly {
+  from{
+    transform: translateY(-300px);
+  }
+  to{
+    transform: translateY(0);
+  }
+}
 .tableAnimation{
   /* Scroll and general styles*/
   overflow-x:auto;
