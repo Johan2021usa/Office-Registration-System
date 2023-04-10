@@ -1,8 +1,8 @@
 //Functions employees, here we are going to consume API REST, Making HttpRequest
 
 //End points for VM ip
-//const basic_ulr_emp = 'http://134.65.16.219:8080/api/employees';
-//const modified_url_emp = 'http://134.65.16.219:8080/api/employees/';
+// const basic_ulr_emp = 'http://134.65.16.219:8080/api/employees';
+// const modified_url_emp = 'http://134.65.16.219:8080/api/employees/';
 
 //End points for local host
 const basic_ulr_emp = 'http://localhost:8080/api/employees';
@@ -167,7 +167,8 @@ async function rootGetEmployeeById(){
     switch (verifyEmptyIdField()){
         case !false:
                 switch (verifyNumber()){
-                    case true : getEmployeeById();
+                    case true :
+                        getEmployeeById();
                         break;
                 }
             break;

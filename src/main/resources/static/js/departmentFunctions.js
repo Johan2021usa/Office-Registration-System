@@ -140,6 +140,7 @@ async function postDepartment(){
 
 //Get department by id
 async function getDepartmentById(){
+    activeAnimationTable();
     let idDepartment = document.getElementById("idDep").value;
     fetch(modified_urlDep+idDepartment)
     .then(

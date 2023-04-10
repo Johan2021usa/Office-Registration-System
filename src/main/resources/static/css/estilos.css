@@ -44,6 +44,7 @@ html {
   place-content: end;
   padding-right: 20%;
 }
+
 @keyframes appearTitleSmoothly {
   from{
     transform: translateX(-300px);
@@ -86,8 +87,6 @@ html {
   grid-template-columns: 80%;
   place-content: center;
   margin: 10px;
-
-
   /* Animation settings */
   animation-name: appearSmoothly;
   animation-duration: 1s;
