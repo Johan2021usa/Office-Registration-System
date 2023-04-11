@@ -198,6 +198,7 @@ async function postVehicles(){
 
 //Get department by id (search by id)
 async function getVehicleById(){
+    activeAnimationTable();
     let idVehicle = document.getElementById("idVehicleSearch").value;
     fetch(modified_urlVeh+idVehicle)
         .then(

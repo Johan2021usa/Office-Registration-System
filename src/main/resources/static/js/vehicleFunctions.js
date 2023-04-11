@@ -201,11 +201,11 @@ async function getVehicleById(){
     activeAnimationTable();
     let idVehicle = document.getElementById("idVehicleSearch").value;
     fetch(modified_urlVeh+idVehicle)
-        .then(
-            function (response){
-                return response.json();
-            }
-        ).then(
+    .then(
+        function (response){
+            return response.json();
+        }
+    ).then(
         function (vehicle){
             //it's other way to compare the status 200/201 etc.
             if(typeof vehicle.idVehicle === "number"){
@@ -445,13 +445,52 @@ function tableCreatorById(vehicle){
                 <td>${vehicle.brand}</td>
                 <td>${vehicle.model}</td>
                 <td>${vehicle.color}</td>
-                <td><button class="butInternal" value="details" onclick="deleteVehicle(${vehicle.idVehicle})">${vehicle.department.departmentName}</button></td>
+                <td><button class="butInternal" value="details" onclick="vehicleDepartmentDet(${vehicle.idVehicle})">${vehicle.department.departmentName}</button></td>
                 <td><button class="butInternal" value="details" onclick="fillOutFieldsVeh(${vehicle.idVehicle})">Update</button></td>
                 <td><button class="butInternal" value="details" onclick="deleteVehicle(${vehicle.idVehicle})">Delete</button></td>
             </tr>
         `;
     placeholder.innerHTML = out;
 }
+
+// Get vehicle's department details
+function vehicleDepartmentDet(id){
+    fetch(modified_urlVeh+id)
+    .then(
+        function (res){
+            return res.json();
+        }
+    ).then(
+        function (vehicle){
+            let headTable = document.getElementById('headTableVeh');
+            let bodyTable = document.getElementById('bodyTableVeh');
+            let temporalContent = "";
+            // Components head table
+            temporalContent += `<input class="butIni" type="button" value="close registers" id="btnUpdate" onclick="closeTableVeh()">`
+            temporalContent += `
+                    <tr class="backGroundCell">
+                        <td>Id department</td>
+                        <td>department's name</td>
+                        <td>Salary</td>
+                        <td>Department level</td>
+                    </tr>
+                `;
+            headTable.innerHTML = temporalContent;
+            temporalContent='';
+
+            // Components body table
+            temporalContent +=`
+                    <td>${vehicle.department.idDep}</td>  
+                    <td>${vehicle.department.departmentName}</td>
+                    <td>${vehicle.department.departmentSalary}</td>
+                    <td>${vehicle.department.departmentLevel}</td>
+                `;
+            bodyTable.innerHTML = temporalContent;
+        }
+    )
+}
+
+
 // Show Forms (Update vehicle)
 function showFieldsUpdateVeh(){
     //This command selects the div which contains the fields

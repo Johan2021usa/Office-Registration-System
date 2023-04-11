@@ -324,6 +324,7 @@ function employeeVehicle(id){
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 //Get employee by id method
 async function getEmployeeById(){
+    activeAnimationTable();
     let idEmployee = document.getElementById('id').value;
     fetch(modified_url_emp+idEmployee)
     .then(

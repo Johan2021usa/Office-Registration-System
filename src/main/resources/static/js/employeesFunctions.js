@@ -9,7 +9,6 @@ const modified_url_emp = 'http://134.65.16.219:8080/api/employees/';
 // const modified_url_emp = 'http://localhost:8080/api/employees/';
 
 
-
 // //Get employees #1
 // //Get method using AJAX
 // function getEmployeeAjax(){
@@ -248,7 +247,6 @@ function employeeDepartmentDet(id){
         }
     ).then(
         function (employee) {
-        //console.log(id);
             let placeholderHead = document.querySelector('#headTable');
             let placeholder = document.querySelector('#bodyTable');
             let out = "";
