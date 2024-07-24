@@ -1,13 +1,12 @@
 //Functions employees, here we are going to consume API REST, Making HttpRequest
 
 //End points for VM ip
-// const basic_ulr_emp = 'http://134.65.16.219:8080/api/employees';
-// const modified_url_emp = 'http://134.65.16.219:8080/api/employees/';
+//const basic_ulr_emp = 'http://134.65.16.219:8080/api/employees';
+//const modified_url_emp = 'http://134.65.16.219:8080/api/employees/';
 
 //End points for local host
 const basic_ulr_emp = 'http://localhost:8080/api/employees';
 const modified_url_emp = 'http://localhost:8080/api/employees/';
-
 
 
 // //Get employees #1
@@ -202,7 +201,7 @@ async function getEmployeeFetch2(){
             let tableHead = document.querySelector('#headTable');
             let tableBody = document.querySelector('#bodyTable');
             let content = "";
-                content +=`<input class="butIni" type="button" value="close registers" id="btnUpdate" onclick="closeTable()">`;
+                content +=`<input class="butCloseTb" type="button" value="close" id="btnUpdate" onclick="closeTable()">`;
 
                 content +=`
                     <tr class="backGroundCell">
@@ -248,11 +247,10 @@ function employeeDepartmentDet(id){
         }
     ).then(
         function (employee) {
-        //console.log(id);
             let placeholderHead = document.querySelector('#headTable');
             let placeholder = document.querySelector('#bodyTable');
             let out = "";
-            out +=`<input class="butIni" type="button" value="close registers" id="btnUpdate" onclick="closeTable()">`;
+            out +=`<input class="butCloseTb" type="button" value="close" id="btnUpdate" onclick="closeTable()">`;
 
             out += `
                     <tr class="backGroundCell">
@@ -292,7 +290,7 @@ function employeeVehicle(id){
             let placeholderHead = document.querySelector('#headTable');
             let placeholder = document.querySelector('#bodyTable');
             let out = "";
-            out +=`<input class="butIni" type="button" value="close registers" id="btnUpdate" onclick="closeTable()">`;
+            out +=`<input class="butCloseTb" type="button" value="close" id="btnUpdate" onclick="closeTable()">`;
             out += `
                     <tr class="backGroundCell">
                         <td>Id vehicle</td>
@@ -336,7 +334,7 @@ async function getEmployeeById(){
             let placeholderHead = document.querySelector('#headTable');
             let placeholder = document.querySelector('#bodyTable');
             let out = "";
-            out +=`<input class="butIni" type="button" value="close registers" id="btnUpdate" onclick="closeTable()">`;
+            out +=`<input class="butCloseTb" type="button" value="close" id="btnUpdate" onclick="closeTable()">`;
 
             out += `
                     <tr class="backGroundCell">

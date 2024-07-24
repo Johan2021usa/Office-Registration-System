@@ -60,7 +60,7 @@ async function getDepartments(){
             let placeholderHead = document.querySelector('#headTableDep');
             let placeholder = document.querySelector('#bodyTableDep');
             let out = "";
-            out +=`<input class="butIni" type="button" value="close registers" id="btnUpdateDep" onclick="closeTableDep()">`;
+            out +=`<input class="butCloseTb" type="button" value="close" id="btnUpdateDep" onclick="closeTableDep()">`;
 
             out +=`
                     <tr class="backGroundCell">
@@ -348,7 +348,7 @@ function tableCreatorById(dep){
     let placeholderHead = document.querySelector('#headTableDep');
     let placeholder = document.querySelector('#bodyTableDep');
     let out = "";
-    out +=`<input class="butIni" type="button" value="close registers" id="btnUpdateDep" onclick="closeTableDep()">`;
+    out +=`<input class="butCloseTb" type="button" value="close" id="btnUpdateDep" onclick="closeTableDep()">`;
 
     out +=`
             <tr class="backGroundCell">

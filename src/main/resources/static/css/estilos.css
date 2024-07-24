@@ -1,26 +1,72 @@
+:root{
+  /* COLOR BG*/
+  --clr-purple-dark: #523ba8;
+  --clr-purple-mid1: rgba(82, 59, 168, 0.7);
+  --clr-purple-mid2: #7D59FF;
+  --clr-purple-light: #b4c6f0;
+  --clr-fuchsia-Light: #9a4bd0;
+
+  /* COLOR BG BUTTONS */
+  --clr-btnBG-purple: #523BA8FF;
+  /* COLOR BG TABLE */
+  --clr-cellGB-fuchsia:#bc9ee0;
+
+  /* COLOR BUTTON ACTIONS */
+  --clr-but-hov: #7D59FF;
+  --clr-but-act: #9a4bd0;
+
+  /* COLOR FONTS */
+  --clr-fnt-Light: white;
+  --clr-fnt-Dark: black;
+  --clr-fnt-Mid-vs: rgba(71, 68, 79, 0.7);
+}
+
+/* ANIMATIONS */
+@keyframes appearTitleSmoothly {
+  from{
+    transform: translateX(-300px);
+  }to{
+     transform: translateX(0);
+   }
+}
+@keyframes appearSmoothly {
+  from{
+    transform: translateY(-300px);
+  }
+  to{
+    transform: translateY(0);
+  }
+}
+
 html {
   font-family: "Lucida Sans", sans-serif;
 }
-
+body{
+   margin: 0;
+   padding: 0;
+ }
 .backGround{
   background-image: url("https://cdn.pixabay.com/photo/2018/08/18/13/26/interface-3614766_1280.png");
   background-position: center;
   background-size: 1280px 854px;
   background-repeat: no-repeat;
-  background-color: #b4c6f0;
-  margin: 0px;
+  background-color: var(--clr-purple-light);
 }
 
+/* NAVBAR */
 .navbar{
-  background-color: #523ba8;
-  color: #ffffff;
+  background-color: var(--clr-purple-dark);
   display: grid;
   grid-template-columns: 50% 50%;
-  position: fixed;
-  height: 50px;
+  height: 60px;
   width: 100%;
-  top: 0;
-  /*border-bottom: 1px solid #222c6f;*/
+  z-index: 1;
+  color: var(--clr-fnt-Light);
+  /* Combining position sticky and top 0,
+  we create a fixed position without overlapping,
+  This is used for fixed nav-bars */
+  position: sticky;
+  top:0;
 }
 .nav-left{
   display: flex;
@@ -31,7 +77,6 @@ html {
 .icons{
   height: 40px;
   width: 40px;
-  margin: 0px;
 }
 .title-page{
   margin-left: 5px;
@@ -44,24 +89,38 @@ html {
   place-content: end;
   padding-right: 20%;
 }
+/* Buttons Navbar*/
+.butLink{
+  padding: 10px 10px;
+  text-align: center;
+  border-radius: 5px;
 
-@keyframes appearTitleSmoothly {
-  from{
-    transform: translateX(-300px);
-  }to{
-    transform: translateX(0);
-     }
+  font-family: "Luida Sans", sans-serif;
+  color: var(--clr-fnt-Light);
+  text-decoration: none; /* Eliminate line under letters */
+
+  transition: background-color 0.4s ease-in-out;
+}
+.butLink:hover{
+  background-color: var(--clr-but-hov);
+  /*background-color: #694BD6;*/
+  cursor: pointer;
+}
+.butLink:active{
+  background-color: var(--clr-but-act);
+  transition: background-color 0.05s;
 }
 
+/* MAIN HEADER */
 .header-title {
-  background-color: rgba(82, 59, 168, 0.7);
-  color: #ffffff;
-  text-align: center;
-  font-weight: bold;
-  font-size: xxx-large;
-  margin-top: 60px;
-  padding: 15px;
-
+  /*TEST */
+  background: rgb(82,59,168);
+  background: linear-gradient(180deg, rgba(82,59,168,1) 0%, rgba(82,59,168,0.7) 100%);
+  /*-----------------------------------------------------------------*/
+  display: flex;
+  place-content: center;
+  /*background-color: var(--clr-purple-mid1);*/
+  z-index: 2;
   /*Animation settings*/
   animation-name: appearTitleSmoothly;
   animation-duration: 1s;
@@ -69,53 +128,49 @@ html {
   animation-iteration-count: 1;
   animation-direction: normal;
   animation-fill-mode: none;
+  /*border: 1px solid yellow;*/
 }
-
-/* Animation Table-frame*/
-@keyframes appearSmoothly {
-  from{
-    transform: translateY(-300px);
-  }
-  to{
-    transform: translateY(0);
-  }
+.header-title h2{
+  width: 74rem;
+  /*font*/
+  color: var(--clr-fnt-Light);
+  text-align: center;
+  font-weight: bold;
+  font-size: 2rem;
+  /*border: 1px solid red;*/
 }
-.tableAnimation{
-  /* Scroll and general styles*/
-  overflow-x:auto;
-  display: grid;
-  grid-template-columns: 80%;
-  place-content: center;
-  margin: 10px;
-  /* Animation settings */
-  animation-name: appearSmoothly;
-  animation-duration: 1s;
-  animation-delay: 0s;
-  animation-iteration-count: 1;
-  animation-direction: normal;
-  animation-fill-mode: none;
-}
-
-/*@Media: works as a conditional statement, as long as this is true an action will be done*/
+/* DESIGN FOR DEVICES WITH RESOLUTION MINOR THAN 700PX*/
 @media (max-width: 700px) {
-  .header-title{
-    margin-top: 100px;
-  }
   .navbar{
-    display: block;
+    display: flex;
+    flex-wrap: wrap;
+    place-content: center;
+    position: sticky;
+    height: auto;
+    padding: 0.5vh 0;
   }
   .nav-right{
     /*visibility: hidden;*/
     display: flex;
-    background-color: rgb(82, 59, 168);
-    padding-right: 0%;
+    background-color: var(--clr-btnBG-purple);
+    padding-right: 0;
     place-content: center;
   }
   .nav-left{
     display: flex;
     place-content: center;
-    padding-left: 0%;
+    padding-left: 0;
 
+    /*Animation settings*/
+    animation-name: appearTitleSmoothly;
+    animation-duration: 1s;
+    animation-delay: 0s;
+    animation-iteration-count: 1;
+    animation-direction: normal;
+    animation-fill-mode: none;
+  }
+  /* WEBSITE TITTLE */
+  .header-title {
     /*Animation settings*/
     animation-name: appearTitleSmoothly;
     animation-duration: 1s;
@@ -126,165 +181,221 @@ html {
   }
 }
 
-.tableCenter{
-  /* Scroll and general styles*/
-  overflow-x:auto;
-  display: flex;
+/* ELEMENTS CONTAINER */
+.elements_container{
+  display: grid;
   place-content: center;
-  margin: 10px;
+  box-sizing: border-box;
+  padding: 0 0.8rem;
+  /*border: 1px solid yellow;*/
 }
 
-
-
+/* TABLE */
+.tableCenter{
+  display: flex;
+  align-items: center;
+  height: 0;
+  opacity: 0;
+  transition: opacity 400ms, height 500ms;
+  box-sizing: border-box;
+  overflow: scroll;
+  /* overflow x and general styles*/
+}
+.tableCenter::-webkit-scrollbar{
+  display: none;
+}
+.tableAnimation{
+  /* overflow x and general styles*/
+  display: flex;
+  align-items: center;
+  height: 17rem;
+  opacity: 100;
+  transition: opacity 400ms, height 500ms;
+  box-sizing: border-box;
+  overflow: scroll;
+  /* Animation settings */
+  animation-name: appearSmoothly;
+  animation-duration: 400ms;
+  animation-delay: 0s;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+  animation-fill-mode: none;
+  /*border: 1px solid yellow;*/
+}
+.tableAnimation::-webkit-scrollbar{
+  display: none;
+}
 .centerObject{
+  background-color: var(--clr-purple-mid1);
+  height: auto;
+  /*transition: height 1s;*/
+  /*border: 1px solid red;*/
 }
-
-.menu ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-.menu li{
-  padding: 8px;
-  margin-bottom: 7px;
-  color: #ffffff;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-}
-
-.menu li:hover {
-  background-color: #0099cc;
-}
-
-/* For mobile phones: */
-[class*="col-"] {
-  width: 100%;
-}
-
-.butLink{
-  padding: 10px 10px;
+.backGroundCell{
+  background-color: #bc9ee0;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   text-align: center;
-  font-family: "Luida Sans", sans-serif;
-  color: white;
-  text-decoration: white;
-  display: inline-block;
+  font-size: 1.3rem;
 }
-.butLink:hover{
-  background-color: #9a4bd0;
-  padding: 10px 10px;
-  font-size: 15px;
-  text-align: center;
-  font-family: "Luida Sans", sans-serif;
-  color: white;
-  text-decoration: white;
-  display: inline-block;
-  cursor: pointer;
-}
-
-.butIni{
-  background-color: rgb(82, 59, 168);
-  animation-fill-mode: both;
-  cursor: pointer;
-  color: white;
-  font-family: "Luida Sans", sans-serif;
-  font-size: 20px;
-  margin: 10px;
-  padding: 10px;
-  border-style: none;
-}
-
-.butIni:hover{
-  background-color: rgb(126, 77, 248);
-}
-
-.butInternal{
-  background-color: rgb(82, 59, 168);
-  animation-fill-mode: both;
-  border-style: none;
-  color: white;
-  font-family: "Luida Sans", sans-serif;
-  font-size: 15px;
-  margin: 10px;
-  padding: 5px;
-  cursor: pointer;
-}
-
-.butInternal:hover{
-background-color: rgb(126, 77, 248);
-}
-
-.butMenu{
-  background-color: rgb(82, 59, 168);
-  animation-fill-mode: both;
-  color: white;
-  font-family: "Luida Sans", sans-serif;
-  font-size: 20px;
-  padding: 5px;
-  width: 100%;
-}
-
-.butMenu:hover{
-  background-color:rgb(93, 37, 224);
-}
-
-.fondIni{
-  text-align: center;
-  background-color: rgba(82, 59, 168, 0.7);
-  padding: 35px;
-  box-shadow: yellow;
-}
-
-.centrarText{
-  text-align: center;
-  margin-top: 15px;
-}
-
 .tituloCelda{
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  font-weight: 900;
+  font-weight: bold;
 }
-
-.backGroundCell{
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  background-color: #bc9ee0;
-  border-color: black;
-  text-align: center;
-  font-size: 18px;
+.backGroundCell tr td{
+  padding: 0.5vh 1vw;
+  /*border: 1px solid green;*/
 }
-
-.footer {
-  background-color: rgba(82, 59, 168, 0.8);
-  color: #ffffff;
-  text-align: center;
+/* TABLE BUTTONS */
+.butCloseTb{
+  background-color: var(--clr-btnBG-purple);
+  width: 5rem;
+  padding: 0.5vh;
+  margin: 0.5vh 0;
+  border-style: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 200ms ease-in-out;
+  /*Text style*/
+  font-family: "Luida Sans", sans-serif;
   font-size: 20px;
-  padding: 15px;
-  margin-top: 20px;
+  color: white;
+}
+.butCloseTb:hover{
+  background-color: var(--clr-but-hov);
+}
+.butCloseTb:active{
+  background-color: var(--clr-but-act);
+  transition: background-color 0s;
+}
+.butInternal{
+  background-color:var(--clr-btnBG-purple);
+  border-style: none;
+  /*Text style*/
+  color: white;
+  font-family: "Luida Sans", sans-serif;
+  font-size: 15px;
+  cursor: pointer;
+}
+.butInternal:hover{
+  background-color: var(--clr-but-hov);
 }
 
-.footer img{
-  height: 55px;
-  width: 55px;
-  margin: 10px;
-}
-
+/* FORMS */
 .formsStyle{
+  opacity: 0;
+  height: 0;
+  /* Based on a research an animation must last from 100-500ms*/
+  transition: opacity 300ms, height 400ms;
   text-align: center;
+  /*border: 1px solid yellow;*/
 }
-
+.formsStyle--active{
+  opacity: 100;
+  height: 35vh;
+  transition: opacity 400ms, height 500ms;
+  text-align: center;
+  /*border: 1px solid yellow;*/
+}
+@media (max-width: 700px){
+  .formsStyle--active{
+    opacity: 100;
+    height: 47vh;
+    transition: opacity 400ms, height 500ms;
+    text-align: center;
+    /*border: 1px solid yellow;*/
+  }
+}
+.formsStyle p,
+.formsStyle--active p{
+  color: var(--clr-fnt-Light);
+}
 /* To choose an item according to its attributes, you can use: .classElement [property="value"] */
+.formsStyle--active input[type="text"],
+.formsStyle--active input[type="number"],
 .formsStyle input[type="text"],
 .formsStyle input[type="number"]{
   border-style: none;
   text-align:center;
   font-size: 20px;
-  color: black;
-  margin-bottom: 5px;
+  color: var(--clr-fnt-Dark);
+  margin: 0 0 6px 0;
+}
+/* This allows your to change the color of a placeholder text*/
+.formsStyle--active input::placeholder,
+.formsStyle input::placeholder{
+  color: var(--clr-fnt-Mid-vs);
 }
 
-/* This allows your to change the color of a placeholder text*/
-.formsStyle input::placeholder{
-  color: rgba(71, 68, 79, 0.7);
+/* Action Buttons */
+.fondIni{
+  display: flex;
+  place-content: center;
+  flex-wrap: wrap;
+  background-color: var(--clr-purple-mid1);
+  padding: 30px 35px;
 }
+.butIni{
+  background-color: var(--clr-btnBG-purple);
+  width: 15rem;
+  margin: 10px;
+  padding: 10px;
+  border-style: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.4s ease-in-out;
+  /*TEXT STYLE*/
+  font-family: "Luida Sans", sans-serif;
+  font-size: 20px;
+  color: var(--clr-fnt-Light);
+}
+.butIni:hover{
+  background-color: var(--clr-but-hov);
+}
+.butIni:active{
+  background-color: var(--clr-but-act);
+  transition: background-color 0s;
+}
+
+/* FOOTER */
+.footer {
+  display: flex;
+  place-content: center;
+  background-color: var(--clr-purple-mid1);
+  margin-top: 20px;
+}
+.footer__section{
+  display: flex;
+  flex-wrap: wrap;
+  width: 74rem;
+  padding: 0 1rem;
+  color: var(--clr-fnt-Light);
+  /*border: 1px solid red;*/
+}
+.footer__section h3{
+  font-size: 1.3rem;
+  width: 100%;
+  margin: 1.5vh 0 0.2vh 0;
+  text-align: center;
+  font-weight: bold;
+}
+.footer__section p{
+  width: 100%;
+  font-size: 1.2rem;
+  font-weight: normal;
+}
+.footer__section article{
+  display: flex;
+  flex-wrap: wrap;
+  place-content: center;
+  width: 100%;
+}
+.footer__section article img,
+.footer__section img{
+  height: 75px;
+  width: 75px;
+  margin: 10px;
+}
+
 
 
 
