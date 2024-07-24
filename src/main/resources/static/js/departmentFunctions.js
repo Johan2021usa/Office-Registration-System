@@ -1,10 +1,10 @@
 //End points for VM ip
-const basic_urlDep = 'http://134.65.16.219:8080/api/departments';
-const modified_urlDep = 'http://134.65.16.219:8080/api/departments/';
+// const basic_urlDep = 'http://134.65.16.219:8080/api/departments';
+// const modified_urlDep = 'http://134.65.16.219:8080/api/departments/';
 
 //End points for local host
-// const basic_urlDep = 'http://localhost:8080/api/departments';
-// const modified_urlDep = 'http://localhost:8080/api/departments/';
+const basic_urlDep = 'http://localhost:8080/api/departments';
+const modified_urlDep = 'http://localhost:8080/api/departments/';
 
 // if(employee.status)
 //     switch (employee.status){
@@ -60,7 +60,7 @@ async function getDepartments(){
             let placeholderHead = document.querySelector('#headTableDep');
             let placeholder = document.querySelector('#bodyTableDep');
             let out = "";
-            out +=`<input class="butIni" type="button" value="close registers" id="btnUpdateDep" onclick="closeTableDep()">`;
+            out +=`<input class="butCloseTb" type="button" value="close" id="btnUpdateDep" onclick="closeTableDep()">`;
 
             out +=`
                     <tr class="backGroundCell">
@@ -348,7 +348,7 @@ function tableCreatorById(dep){
     let placeholderHead = document.querySelector('#headTableDep');
     let placeholder = document.querySelector('#bodyTableDep');
     let out = "";
-    out +=`<input class="butIni" type="button" value="close registers" id="btnUpdateDep" onclick="closeTableDep()">`;
+    out +=`<input class="butCloseTb" type="button" value="close" id="btnUpdateDep" onclick="closeTableDep()">`;
 
     out +=`
             <tr class="backGroundCell">
