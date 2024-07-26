@@ -33,24 +33,40 @@ async function rootGetVehicleByID() {
 //Root update vehicles
 async function rootUpdateVeh(){
     if (verifyEmptyFieldsUpdateVeh()!==false){
-        await updateVehicle();
-        cleanFieldsUpdateVeh();
+        let upStatus = updateVehicle();
+        //console.log(upStatus);
+        if(upStatus){
+            alert("Vehicle has been successfully updated");
+            cleanFieldsUpdateVeh();
+            showFieldsUpdateVeh(true);
+            await getVehicles(true);
+        }
+        if(upStatus===false){
+            alert("Vehicle couldn't be updated");
+        }
     }
 }
 
 ///////////////////// CRUD CONSUMING METHODS ////////////////////////////////////
 
 // GET ALL VEHICLES
-async function getVehicles(){
-    //This line sends and promise to that url, by defect the method is get
+async function getVehicles(direct){
+    //This line sends and promise to that url, by defect the method is GET
     fetch(basic_urlVeh)//this line gets a response and put those values into a resp variable
     .then((resp)=>{
         return resp.json();
     })
     .then((vehicles)=>{
-        if(vehicles){
+        let butState = document.getElementById('getVehicles').getAttribute('value');
+        let butVal =document.getElementById('getVehicles');
+        if(butState==='Show Registers' && vehicles || direct){
             activeAnimationTable();
             tableCreatorAll(vehicles);
+
+            butVal.setAttribute('value', "Close Registers");
+        }else {
+            closeTableVeh();
+            butVal.setAttribute('value', "Show Registers");
         }
     })
     .catch((err)=>{
@@ -62,9 +78,10 @@ async function getVehicles(){
 async function getVehicleById(){
     let idVehicle = document.getElementById("idVehicleSearch").value;
     fetch(modified_urlVeh+idVehicle)
-        .then((response)=>{
-            return response.json();
-        }).then((response)=>{
+    .then((response)=>{
+        return response.json();
+    })
+    .then((response)=>{
         if(response.status===404){
             alert("The vehicle's id isn't existing");
         }else if(response.status===500){
@@ -109,7 +126,7 @@ async function deleteVehicle(idVehicle){
         switch (response.status){
             case 200: {
                 alert("The vehicle has been successfully deleted");
-                getVehicles();
+                getVehicles(true);
                 break;
             }
             case 500: {
@@ -180,18 +197,19 @@ async function updateVehicle(){
             color: colorVehicleUpdate
         }),
         headers: {"Content-type": "application/json; charset=UTF-8"}
-    }).then((response)=>{
+    })
+    .then((response)=>{
         switch (response.status){
             case 500 : {
                 alert("There was an error: status 500");
-                break;
+                return false;
             }
             case 200 : {
-                alert("The vehicle has been updated");
-                getVehicles();
-                break;
+                return true;
             }
         }
+    }).catch((err)=>{
+        alert(`Error: ${err.message()}`);
     });
 }
 
@@ -221,16 +239,15 @@ function tableCreatorAll(vehicles){
     let tableHead = document.querySelector('#headTableVeh');
     let tableBody = document.querySelector('#bodyTableVeh');
     let cont =`
-        <input class="butCloseTb" type="button" value="Close" id="btnUpdateVeh" onclick="closeTableVeh()">
         <tr class="">
-            <td>ID vehicle</td>
+            <td>ID</td>
             <td>Plate</td>
             <td>Brand</td>
             <td>Model</td>
             <td>Color</td>  
             <td>Department</td>
-            <td>Delete</td>
             <td>Update</td>
+            <td>Delete</td>
         </tr>`;
     tableHead.innerHTML = cont;
     cont = "";
@@ -242,7 +259,7 @@ function tableCreatorAll(vehicles){
                 <td>${vehicle.brand}</td>
                 <td>${vehicle.model}</td>
                 <td>${vehicle.color}</td>
-                <td><button class="butInternal" value="detVehDep" onclick="vehicleDepartmentDet(${vehicle.idVehicle})">${vehicle.department.departmentName}</button></td>                
+                <td><button class="butInternal butInternal--alt" value="detVehDep" onclick="vehicleDepartmentDet(${vehicle.idVehicle})">${vehicle.department.departmentName}</button></td>                
                 <td><button class="butInternal" value="updateVeh" onclick="fillOutFieldsVeh(${vehicle.idVehicle})">Update</button></td>
                 <td><button class="butInternal" value="deletVeh" onclick="deleteVehicle(${vehicle.idVehicle})">Delete</button></td>
             </tr>`;
@@ -254,9 +271,8 @@ function tableCreatorById(vehicle){
     let placeholderHead = document.querySelector('#headTableVeh');
     let placeholder = document.querySelector('#bodyTableVeh');
     let cont =`
-        <input class="butCloseTb" type="button" value="close" id="btnUpdateDep" onclick="closeTableVeh()">
         <tr class="backGroundCell">
-            <td>Id vehicle</td>
+            <td>ID</td>
             <td>Plate</td>
             <td>Brand</td>
             <td>Model</td>
@@ -274,7 +290,7 @@ function tableCreatorById(vehicle){
         <td>${vehicle.brand}</td>
         <td>${vehicle.model}</td>
         <td>${vehicle.color}</td>
-        <td><button class="butInternal" value="detVehDep" onclick="vehicleDepartmentDet(${vehicle.idVehicle})">${vehicle.department.departmentName}</button></td>
+        <td><button class="butInternal butInternal--alt" value="detVehDep" onclick="vehicleDepartmentDet(${vehicle.idVehicle})">${vehicle.department.departmentName}</button></td>
         <td><button class="butInternal" value="updateVeh" onclick="fillOutFieldsVeh(${vehicle.idVehicle})">Update</button></td>
         <td><button class="butInternal" value="deletVeh" onclick="deleteVehicle(${vehicle.idVehicle})">Delete</button></td>
     </tr>`;
@@ -285,9 +301,8 @@ function tableVehDepCreator(vehicle){
     let placeholderHead = document.querySelector('#headTableVeh');
     let placeholder = document.querySelector('#bodyTableVeh');
     let cont =`
-        <input class="butCloseTb" type="button" value="close" id="btnUpdate" onclick="closeTableVeh()">
         <tr class="backGroundCell">
-            <td>Id department</td>
+            <td>ID Department</td>
             <td>Department's name</td>
             <td>Salary</td>
             <td>Department level</td>
@@ -333,10 +348,10 @@ function verifyEmptyFieldsVeh(){
     let emptyVeh = " ";
 
     if(vehiclePlateCreate.length>0 && vehicleBrandCreate.length>0 && vehicleModelCreate.length>0 && vehicleColorCreate.length>0 && departmentIdCreate.length>0){
-        for (a=0;a<generalVeh.length;a++){
+        for (let a=0;a<generalVeh.length;a++){
             let uniGenDep = [];
             uniGenDep+=generalVeh[a];
-            for(a2=0;a2<uniGenDep.length;a2++){
+            for(let a2=0;a2<uniGenDep.length;a2++){
                 if(emptyVeh !== uniGenDep[0]){
                 }else {
                     alert("don't leave empty fields 1");+
@@ -445,13 +460,14 @@ function showSearchVeh(){
     if(buttonSearch.getAttribute("value")==='Search'){
         formFindId.classList.remove("formsStyle");
         formFindId.classList.add("formsStyle--active");
-        buttonSearch.setAttribute('value', 'Cancel search');
+        buttonSearch.setAttribute('value', 'Close search');
         formFindId.innerHTML = contForm;
 
     }else {
         formFindId.classList.remove("formsStyle--active");
         formFindId.classList.add("formsStyle");
         buttonSearch.setAttribute('value', 'Search');
+        closeTableVeh();
         setTimeout(()=>{
             formFindId.innerHTML = '';
         }, 300);
@@ -487,13 +503,13 @@ function verifyEmptyFieldsUpdateVeh(){
     }
 }
 // 4.1 CLOSE UPDATE FORM
-function showFieldsUpdateVeh() {
+function showFieldsUpdateVeh(direct) {
     //This command selects the div which contains the fields
     let formUpVeh = document.getElementById('fieldsUpdateVeh');
     //This command selects a button of document
-    let btnCanUpd = document.getElementById('btnCancelUpdateVeh');
+    let btnCanUpd = document.getElementById('btnCancelUpdateVeh').getAttribute("value");
     // EXECUTING A FADE OUT AND THEN REMOVING CONTENT
-    if (btnCanUpd.getAttribute("value") === "Cancel Update"){
+    if (btnCanUpd==="Cancel Update" || direct){
         formUpVeh.classList.remove('formsStyle--active');
         formUpVeh.classList.add('formsStyle');
         setTimeout(()=>{
