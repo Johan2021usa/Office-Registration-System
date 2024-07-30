@@ -19,33 +19,33 @@
 
     <!--Navbar-->
     <header class="navbar">
-        <div class="nav-left">
+        <section class="nav-left">
             <img alt="app-icon" class="icons" src="https://cdn-icons-png.flaticon.com/512/2133/2133005.png">
             <div class="title-page">Office System</div>
-        </div>
-        <div class="nav-right">
+        </section>
+        <section class="nav-right">
             <a href="department.html" class="butLink">Departments</a>
             <a href="employee.html" class="butLink">Employees</a>
             <a href="vehicle.html" class="butLink">Vehicles</a>
             <a referrerpolicy="no-referrer" target="_blank" href="https://johan2021usa.github.io/portfolio-development/" class="butLink">About me</a>
-        </div>
+        </section>
     </header>
 
     <main>
-        <!--Div header-->
+        <!--Article header-->
         <article class="header-title">
             <h2>Vehicle Registration</h2>
         </article>
 
-        <!-- Div container -->
+        <!-- Section container -->
         <section class="elements_container">
             <!--Table container-->
-            <div id="tableVeh" class="tableCenter">
+            <article id="tableVeh" class="tableCenter">
                 <table id="table" class="centerObject">
                     <thead id="headTableVeh" class="backGroundCell tituloCelda"></thead>
                     <tbody id="bodyTableVeh" class="backGroundCell"></tbody>
                 </table>
-            </div>
+            </article>
             <!--form create Vehicle-->
             <form class="formsStyle" id ="fieldsCreateVeh"></form>
             <!--Form update Vehicle-->
@@ -60,7 +60,6 @@
             <input class="butIni" type="button" value="Create register" id="btnShowVeh" onclick="showCreateFieldsVeh()">
             <input class="butIni" type="button" value="Search" id="btnSearchVeh" onclick="showSearchVeh()">
         </section>
-
     </main>
 
     <!--Footer-->
