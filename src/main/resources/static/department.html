@@ -9,7 +9,6 @@
     <!-- CSS tags -->
     <link rel="stylesheet" href="css/estilos.css">
     <!-- Javascript/Jquery-->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="js/departmentFunctions.js"></script>
     <!-- Tittle and information -->
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2133/2133005.png">
@@ -20,71 +19,50 @@
 
     <!--Navbar-->
     <header class="navbar">
-        <div class="nav-left">
-            <img class="icons" src="https://cdn-icons-png.flaticon.com/512/2133/2133005.png">
+        <section class="nav-left">
+            <img alt="app-icon" class="icons" src="https://cdn-icons-png.flaticon.com/512/2133/2133005.png">
             <div class="title-page">Office System</div>
-        </div>
-        <div class="nav-right">
+        </section>
+        <section class="nav-right">
             <a href="department.html" class="butLink">Departments</a>
             <a href="employee.html" class="butLink">Employees</a>
             <a href="vehicle.html" class="butLink">Vehicles</a>
             <a referrerpolicy="no-referrer" target="_blank" href="https://johan2021usa.github.io/portfolio-development/" class="butLink">About me</a>
-        </div>
+        </section>
     </header>
 
     <main>
-        <!--Div header-->
-        <div class="header-title">
+        <!--Article Header-->
+        <article class="header-title">
             <h2>Department Registration</h2>
-        </div>
+        </article>
 
-        <!--Div Container-->
-        <div class="elements_container">
-
+        <!--Section Container-->
+        <section class="elements_container">
             <!-- Table container-->
-            <div id="tableDep" class="tableCenter">
+            <article id="tableDep" class="tableCenter">
                 <table id="table" class="centerObject">
-                    <thead id = "headTableDep" class="backGroundCell tituloCelda">
-                    </thead>
-                    <tbody id="bodyTableDep" class="backGroundCell">
-                    </tbody>
+                    <thead id = "headTableDep" class="backGroundCell tituloCelda"></thead>
+                    <tbody id="bodyTableDep" class="backGroundCell"></tbody>
                 </table>
-            </div>
+            </article>
 
             <!--form create department-->
-            <div class="formsStyle" id ="fieldsDep" hidden="hidden">
-                <input type="text" id="departmentNameField" placeholder="department name"><br>
-                <input type="number" id="departmentSalaryField" placeholder="department salary"><br>
-                <input type="text" id="departmentLevelField" placeholder="department level"><br>
-                <input class="butIni" type="button" value="Confirm Register" id="btnCreateDep" onclick="rootCreateDep()">
-            </div>
+            <form class="formsStyle" id ="fieldsDep"></form>
 
             <!--Form update department fields-->
-            <div class="formsStyle" id ="fieldsUpdateDep" hidden="hidden">
-                <input type="text" id="id_Department" placeholder="Id Department" hidden="hidden"><br>
-                <input type="text" id="departmentName" placeholder="Department name"><br>
-                <input type="number" id="departmentSalary" placeholder="Department salary"><br>
-                <input type="text" id="departmentLevel" placeholder="Department level"><br>
-                <input class="butIni" type="button" value="Confirm Update" id="btnUpdateDep" onclick="rootUpdateDep()">
-                <input class="butIni" type="button" value="Cancel Update" id="btnCancelUpdateDep" onclick="showFieldsUpdateDep()">
-            </div>
+            <form class="formsStyle" id ="fieldsUpdateDep"></form>
 
             <!--form search by id-->
-            <div class="formsStyle" id ="fieldIdDep" hidden="hidden">
-                <p class="footer">!Please! Insert a department's id to search it in the system.</p>
-                <input type="number" id="idDep" placeholder="id department">
-                <input class="butIni" type="button" value="Confirm" id="btnConfirmDep" onclick="rootGetDepartmentById()">
-            </div>
-        </div>
+            <form class="formsStyle" id ="fieldIdDep"></form>
+        </section>
 
-        <!--Buttons-->
-        <div class="fondIni" id="buttonsIdDep">
+        <!--ACTION Buttons-->
+        <section class="fondIni" id="buttonsIdDep">
             <input class="butIni" type="button" value="Show Registers" id ="getDepartments" onclick="getDepartments()">
             <input class="butIni" type="button" value="Create register" id="btnShowDep" onclick="showFieldsDep()">
             <input class="butIni" type="button" value="Search" id="btnSearchDep" onclick="showSearchDep()">
-            <br>
-        </div>
-
+        </section>
     </main>
 
     <!--Footer-->
@@ -105,22 +83,22 @@
             <h3>Technologies for back-end:</h3>
             <p>The next  are the technologies used to develop the back-end for this system: Spring Boot 2.7.2 (Lombok, Devtools, MySQL driver, Spring Web), Spring Data JPA (Hibernate), MySql, Java 11, Maven 3.9.6</p>
             <article>
-                <img src="https://static-00.iconduck.com/assets.00/spring-boot-icon-512x511-pza8zvqu.png">
-                <img src="https://cdn-icons-png.flaticon.com/512/5968/5968254.png">
-                <img src="https://cdn-icons-png.flaticon.com/512/152/152760.png">
+                <img alt="spring-boot-icon" src="https://static-00.iconduck.com/assets.00/spring-boot-icon-512x511-pza8zvqu.png">
+                <img alt="mysql-icon" src="https://cdn-icons-png.flaticon.com/512/5968/5968254.png">
+                <img alt="java-icon" src="https://cdn-icons-png.flaticon.com/512/152/152760.png">
             </article>
 
             <h3>Technologies for front-end:</h3>
             <p>The next are the technologies used to develop this web application that consumes the API: Vanilla JavaScript, HTML5, CSS3</p>
             <article>
-                <img src="https://cdn-icons-png.flaticon.com/512/721/721671.png">
-                <img src="https://cdn-icons-png.flaticon.com/512/1051/1051328.png">
-                <img src="https://cdn-icons-png.flaticon.com/512/732/732007.png">
+                <img alt="javascript-icon" src="https://cdn-icons-png.flaticon.com/512/721/721671.png">
+                <img alt="html-icon" src="https://cdn-icons-png.flaticon.com/512/1051/1051328.png">
+                <img alt="css-icon" src="https://cdn-icons-png.flaticon.com/512/732/732007.png">
             </article>
 
             <h3>Software Galeras &COPY 2024</h3>
             <article>
-                <img src="https://cdn-icons-png.flaticon.com/512/3242/3242244.png">
+                <img alt="developer-icon" src="https://cdn-icons-png.flaticon.com/512/3242/3242244.png">
             </article>
         </section>
     </footer>
