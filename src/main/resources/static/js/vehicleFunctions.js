@@ -1,10 +1,10 @@
 //End points for VM ip
-//const basic_urlVeh = 'http://134.65.16.219:8080/api/vehicles';
-//const modified_urlVeh = 'http://134.65.16.219:8080/api/vehicles/';
+const basic_urlVeh = 'http://134.65.16.219:8080/api/vehicles';
+const modified_urlVeh = 'http://134.65.16.219:8080/api/vehicles/';
 
 //End points for local host
-const basic_urlVeh = 'http://localhost:8080/api/vehicles';
-const modified_urlVeh = 'http://localhost:8080/api/vehicles/';
+// const basic_urlVeh = 'http://localhost:8080/api/vehicles';
+// const modified_urlVeh = 'http://localhost:8080/api/vehicles/';
 
 ////////////////////// Root Methods for vehicles ///////////////////////////////////////
 

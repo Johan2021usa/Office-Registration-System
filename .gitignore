@@ -1,2 +1,2 @@
-# adding .env file to gitignore
-*.env
+# adding .env.properties file to gitignore
+*.env.properties

@@ -19,6 +19,7 @@
   --clr-fnt-Light: white;
   --clr-fnt-Dark: black;
   --clr-fnt-Mid-vs: rgba(71, 68, 79, 0.7);
+
 }
 
 /* ANIMATIONS */
@@ -92,14 +93,13 @@ body{
 /* Buttons Navbar*/
 .butLink{
   padding: 10px 10px;
-  text-align: center;
   border-radius: 5px;
-
+  transition: background-color 350ms ease-in-out;
+  /* TEXT STYLE */
+  text-align: center;
   font-family: "Luida Sans", sans-serif;
   color: var(--clr-fnt-Light);
   text-decoration: none; /* Eliminate line under letters */
-
-  transition: background-color 0.4s ease-in-out;
 }
 .butLink:hover{
   background-color: var(--clr-but-hov);
@@ -193,10 +193,10 @@ body{
 /* TABLE */
 .tableCenter{
   display: flex;
-  align-items: center;
+  margin-top: 0;
   height: 0;
   opacity: 0;
-  transition: opacity 400ms, height 500ms;
+  transition: opacity 400ms, height 500ms, margin 300ms;
   box-sizing: border-box;
   overflow: scroll;
   /* overflow x and general styles*/
@@ -207,10 +207,10 @@ body{
 .tableAnimation{
   /* overflow x and general styles*/
   display: flex;
-  align-items: center;
+  margin: 3vh 0;
   height: 17rem;
   opacity: 100;
-  transition: opacity 400ms, height 500ms;
+  transition: opacity 400ms, height 500ms, margin 500ms;
   box-sizing: border-box;
   overflow: scroll;
   /* Animation settings */
@@ -226,8 +226,8 @@ body{
   display: none;
 }
 .centerObject{
-  background-color: var(--clr-purple-mid1);
-  height: auto;
+  /*padding-top: 6vh;*/
+  box-sizing: border-box;
   /*transition: height 1s;*/
   /*border: 1px solid red;*/
 }
@@ -238,6 +238,10 @@ body{
   font-size: 1.3rem;
 }
 .tituloCelda{
+  /* static respecting elements bellow = sticky*/
+  position: sticky;
+  top:0;
+  /*TEXT STYLE*/
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   font-weight: bold;
 }
@@ -250,14 +254,14 @@ body{
   background-color: var(--clr-btnBG-purple);
   width: 5rem;
   padding: 0.5vh;
-  margin: 0.5vh 0;
+  margin: 0.5vh 0.5vw;
   border-style: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 200ms ease-in-out;
   /*Text style*/
   font-family: "Luida Sans", sans-serif;
-  font-size: 20px;
+  font-size: 1.3rem;
   color: white;
 }
 .butCloseTb:hover{
@@ -270,36 +274,54 @@ body{
 .butInternal{
   background-color:var(--clr-btnBG-purple);
   border-style: none;
+  border-radius: 5px;
+  transition: background-color 200ms ease-in-out;
   /*Text style*/
   color: white;
   font-family: "Luida Sans", sans-serif;
-  font-size: 15px;
+  font-size: 1.2rem;
   cursor: pointer;
 }
 .butInternal:hover{
   background-color: var(--clr-but-hov);
+}
+.butInternal:active{
+  background-color: var(--clr-but-act);
+  transition: background-color 0s;
+}
+.butInternal--alt{
+  background-color:var(--clr-cellGB-fuchsia);
+  color: var(--clr-fnt-Dark);
+  transition: all 100ms ease-in-out;
+}
+.butInternal--alt:hover{;
+  background-color: transparent;
+  scale: 1.15;
+  color: var(--clr-fnt-Light);
 }
 
 /* FORMS */
 .formsStyle{
   opacity: 0;
   height: 0;
+  padding-top: 0;
   /* Based on a research an animation must last from 100-500ms*/
-  transition: opacity 300ms, height 400ms;
+  transition: padding-top 400ms, opacity 300ms, height 400ms;
   text-align: center;
   /*border: 1px solid yellow;*/
 }
 .formsStyle--active{
   opacity: 100;
   height: 35vh;
-  transition: opacity 400ms, height 500ms;
+  padding-top: 4vh;
+  transition: padding-top 500ms, opacity 400ms, height 500ms;
   text-align: center;
   /*border: 1px solid yellow;*/
 }
 @media (max-width: 700px){
   .formsStyle--active{
     opacity: 100;
-    height: 47vh;
+    height: 45vh;
     transition: opacity 400ms, height 500ms;
     text-align: center;
     /*border: 1px solid yellow;*/
@@ -342,10 +364,10 @@ body{
   border-style: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.4s ease-in-out;
+  transition: background-color 350ms ease-in-out;
   /*TEXT STYLE*/
   font-family: "Luida Sans", sans-serif;
-  font-size: 20px;
+  font-size: 1.3rem;
   color: var(--clr-fnt-Light);
 }
 .butIni:hover{

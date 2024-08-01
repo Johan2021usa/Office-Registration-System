@@ -9,7 +9,6 @@
     <!-- CSS tags -->
     <link rel="stylesheet" href="css/estilos.css">
     <!-- Javascript/Jquery-->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="js/employeesFunctions.js"></script>
     <!-- Tittle and information -->
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2133/2133005.png">
@@ -20,79 +19,47 @@
 
     <!--Navbar-->
     <header class="navbar">
-        <div class="nav-left">
+        <section class="nav-left">
             <img class="icons" src="https://cdn-icons-png.flaticon.com/512/2133/2133005.png">
             <div class="title-page">Office System</div>
-        </div>
-        <div class="nav-right">
+        </section>
+        <section class="nav-right">
             <a href="department.html" class="butLink">Departments</a>
             <a href="employee.html" class="butLink">Employees</a>
             <a href="vehicle.html" class="butLink">Vehicles</a>
             <a referrerpolicy="no-referrer" target="_blank" href="https://johan2021usa.github.io/portfolio-development/" class="butLink">About me</a>
-        </div>
+        </section>
     </header>
 
     <main>
-        <!--Div header-->
-        <div class="header-title">
+        <!--Article Header-->
+        <article class="header-title">
             <h2>Employee Registration</h2>
-        </div>
+        </article>
 
-        <!--Div Container-->
-        <div class="elements_container">
-
-            <!-- Container/scroll/Table-->
-            <div id="tableEmp" class="tableCenter">
+        <!--Section Container-->
+        <section class="elements_container">
+            <!-- Table container-->
+            <article id="tableEmp" class="tableCenter">
                 <table id="table" class="centerObject">
-                    <thead id = "headTable" class="backGroundCell tituloCelda">
-                    </thead>
-                    <tbody id="bodyTable" class="backGroundCell">
-                    </tbody>
+                    <thead id = "headTable" class="backGroundCell tituloCelda"></thead>
+                    <tbody id="bodyTable" class="backGroundCell"></tbody>
                 </table>
-            </div>
-
+            </article>
             <!--form create employee-->
-            <div class="formsStyle" id ="fieldsEmp" hidden="hidden">
-                <!--Forms-->
-                <input type="text" id="firstName" placeholder="first name"><br>
-                <input type="text" id="lastName" placeholder="last name"><br>
-                <input type="text" id="email" placeholder="email"><br>
-                <input type="number" id="department" placeholder="department id"><br>
-                <input type="number" id="vehicle" placeholder="Vehicle id"><br>
-                <!--Buttons-->
-                <input class="butIni" type="button" value="Confirm create" id="btnCreate" onclick="rootCreateEmp()">
-            </div>
-
+            <form class="formsStyle" id ="fieldsEmp"></form>
             <!--Form update employee fields-->
-            <div class="formsStyle" id ="fieldsUpdateEmp" hidden="hidden">
-                <!--Forms-->
-                <input type="text" id="idEmployee" placeholder="Id Employee" hidden="hidden"><br>
-                <input type="text" id="firstNameUpdate" placeholder="first name"><br>
-                <input type="text" id="lastNameUpdate" placeholder="last name"><br>
-                <input type="text" id="emailUpdate" placeholder="email"><br>
-                <!--Buttons-->
-                <input class="butIni" type="button" value="Confirm Update" id="btnUpdate" onclick="rootUpdateEmployee()">
-                <input class="butIni" type="button" value="Cancel Update" id="btnCancelUpdate" onclick="showFieldsUpdate()">
-            </div>
-
+            <form class="formsStyle" id ="fieldsUpdateEmp"></form>
             <!--form search by id-->
-            <div class="formsStyle" id ="fieldId" hidden="hidden">
-                <p class="footer">!Please! Insert an employee's id to search it in the system.</p>
-                <!--Forms-->
-                <input type="number" id="id" placeholder="id">
-                <!--Buttons-->
-                <input class="butIni" type="button" value="Confirm" id="btnConfirm" onclick="rootGetEmployeeById()">
-            </div>
-
-        </div>
+            <form class="formsStyle" id ="fieldId"></form>
+        </section>
 
         <!-- Action Buttons-->
-        <div class="fondIni" id="buttonsId">
+        <section class="fondIni" id="buttonsId">
             <input class="butIni" type="button" value="Show Registers" id ="getEmployeeFetch2" onclick="getEmployeeFetch2()">
             <input class="butIni" type="button" value="Create register" id="btnShow" onclick="showFields()">
             <input class="butIni" type="button" value="Search" id="btnSearch" onclick="showSearch()">
-            <br>
-        </div>
+        </section>
     </main>
 
     <!--Footer-->
@@ -113,22 +80,22 @@
             <h3>Technologies for back-end:</h3>
             <p>The next  are the technologies used to develop the back-end for this system: Spring Boot 2.7.2 (Lombok, Devtools, MySQL driver, Spring Web), Spring Data JPA (Hibernate), MySql, Java 11, Maven 3.9.6</p>
             <article>
-                <img src="https://static-00.iconduck.com/assets.00/spring-boot-icon-512x511-pza8zvqu.png">
-                <img src="https://cdn-icons-png.flaticon.com/512/5968/5968254.png">
-                <img src="https://cdn-icons-png.flaticon.com/512/152/152760.png">
+                <img alt="spring-boot-icon" src="https://static-00.iconduck.com/assets.00/spring-boot-icon-512x511-pza8zvqu.png">
+                <img alt="mysql-icon" src="https://cdn-icons-png.flaticon.com/512/5968/5968254.png">
+                <img alt="java-icon" src="https://cdn-icons-png.flaticon.com/512/152/152760.png">
             </article>
 
             <h3>Technologies for front-end:</h3>
             <p>The next are the technologies used to develop this web application that consumes the API: Vanilla JavaScript, HTML5, CSS3</p>
             <article>
-                <img src="https://cdn-icons-png.flaticon.com/512/721/721671.png">
-                <img src="https://cdn-icons-png.flaticon.com/512/1051/1051328.png">
-                <img src="https://cdn-icons-png.flaticon.com/512/732/732007.png">
+                <img alt="javascript-icon" src="https://cdn-icons-png.flaticon.com/512/721/721671.png">
+                <img alt="html-icon" src="https://cdn-icons-png.flaticon.com/512/1051/1051328.png">
+                <img alt="css-icon" src="https://cdn-icons-png.flaticon.com/512/732/732007.png">
             </article>
 
             <h3>Software Galeras &COPY 2024</h3>
             <article>
-                <img src="https://cdn-icons-png.flaticon.com/512/3242/3242244.png">
+                <img alt="developer-icon" src="https://cdn-icons-png.flaticon.com/512/3242/3242244.png">
             </article>
         </section>
     </footer>

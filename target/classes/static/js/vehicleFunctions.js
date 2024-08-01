@@ -33,28 +33,41 @@ async function rootGetVehicleByID() {
 //Root update vehicles
 async function rootUpdateVeh(){
     if (verifyEmptyFieldsUpdateVeh()!==false){
-        await updateVehicle();
-        cleanFieldsUpdateVeh();
+        let upStatus = updateVehicle();
+        if(upStatus){
+            alert("Vehicle has been successfully updated");
+            cleanFieldsUpdateVeh();
+            showFieldsUpdateVeh(true);
+            await getVehicles(true);
+        }
+        if(upStatus===false){
+            alert("Vehicle couldn't be updated");
+        }
     }
 }
 
 ///////////////////// CRUD CONSUMING METHODS ////////////////////////////////////
 
 // GET ALL VEHICLES
-async function getVehicles(){
-    //This line sends and promise to that url, by defect the method is get
-    fetch(basic_urlVeh)//this line gets a response and put those values into a resp variable
+async function getVehicles(direct){
+    fetch(basic_urlVeh)//This line sends and promise to that url, by defect the method is GET
     .then((resp)=>{
         return resp.json();
     })
     .then((vehicles)=>{
-        if(vehicles){
+        let butState = document.getElementById('getVehicles').getAttribute('value');
+        let butVal =document.getElementById('getVehicles');
+        if(butState==='Show Registers' && vehicles || direct){
             activeAnimationTable();
             tableCreatorAll(vehicles);
+            butVal.setAttribute('value', "Close Registers");
+        }else {
+            closeTableVeh();
+            butVal.setAttribute('value', "Show Registers");
         }
     })
     .catch((err)=>{
-        alert(err.message);
+        alert(`An error occurred: ${err.message}`);
     });
 }
 
@@ -62,19 +75,20 @@ async function getVehicles(){
 async function getVehicleById(){
     let idVehicle = document.getElementById("idVehicleSearch").value;
     fetch(modified_urlVeh+idVehicle)
-        .then((response)=>{
-            return response.json();
-        }).then((response)=>{
-        if(response.status===404){
-            alert("The vehicle's id isn't existing");
-        }else if(response.status===500){
-            alert("Server error");
+    .then((response)=>{
+        return response.json();
+    })
+    .then((resJson)=>{
+        if(resJson.status===404){
+            alert(`The vehicle's id isn't exist: status: ${resJson.status}`);
+        }else if(resJson.status===500){
+            alert(`There was an error, status: ${resJson.status}`);
         }else {
             activeAnimationTable();
-            tableCreatorById(response);
+            tableCreatorById(resJson);
         }
     }).catch((error)=>{
-        console.log(error.message);
+        alert(error.message);
     });
 }
 
@@ -83,40 +97,18 @@ function vehicleDepartmentDet(id){
     fetch(modified_urlVeh+id)
     .then((response)=>{
         return response.json();
-    }).then((vehicle) =>{
-        if(vehicle.status===400 || vehicle.status===500){
-            alert(`There was a problem, error: ${vehicle.status}`);
+    }).then((resJson) =>{
+        if(resJson.status===400 || resJson.status===500){
+            alert(`There was a error, status: ${resJson.status}`);
         }else {
             closeTableVeh();
             setTimeout(()=>{
                 activeAnimationTable();
-                tableVehDepCreator(vehicle);
+                tableVehDepCreator(resJson);
             },300);
         }
     }).catch((err)=>{
         alert(err.message);
-    });
-}
-
-// DELETE A VEHICLE BY ID
-async function deleteVehicle(idVehicle){
-    //let idEmployee = document.getElementById()
-    fetch(modified_urlVeh+idVehicle,{
-        method: 'DELETE',
-        headers: {"Content-type": "application/json; charset=UTF-8"}
-    })
-    .then(response => {
-        switch (response.status){
-            case 200: {
-                alert("The vehicle has been successfully deleted");
-                getVehicles();
-                break;
-            }
-            case 500: {
-                alert("It wasn't possible to delete the vehicle, try to delete the department or employee related first");
-                break;
-            }
-        }
     });
 }
 
@@ -148,15 +140,42 @@ async function postVehicles(){
     .then((response)=>{
         switch (response.status){
             case 201:{
-                alert("The vehicle has been created");
+                alert(`The vehicle has been created, status: ${response.status}`);
                 getVehicles();
                 break;
             }
             case 500:{
-                alert("Server error 500");
+                alert(`There was an error, status: ${response.status}`);
                 break;
             }
         }
+    }).catch((err)=>{
+        alert(`There was an error: ${err.message}`);
+    });
+}
+
+// DELETE A VEHICLE BY ID
+async function deleteVehicle(idVehicle){
+    //let idEmployee = document.getElementById()
+    fetch(modified_urlVeh+idVehicle,{
+        method: 'DELETE',
+        headers: {"Content-type": "application/json; charset=UTF-8"}
+    })
+    .then(resJson => {
+        switch (resJson.status){
+            case 200: {
+                alert("The vehicle has been successfully deleted");
+                getVehicles(true);
+                break;
+            }
+            case 500: {
+                alert("It wasn't possible to delete the vehicle, try to delete the department or employee related first");
+                break;
+            }
+        }
+    })
+    .catch((err) => {
+        alert(`error: ${err.message}`);
     });
 }
 
@@ -180,18 +199,19 @@ async function updateVehicle(){
             color: colorVehicleUpdate
         }),
         headers: {"Content-type": "application/json; charset=UTF-8"}
-    }).then((response)=>{
-        switch (response.status){
+    })
+    .then((resJson)=>{
+        switch (resJson.status){
             case 500 : {
-                alert("There was an error: status 500");
-                break;
+                alert( `There was an error, status: ${resJson.status}`);
+                return false;
             }
             case 200 : {
-                alert("The vehicle has been updated");
-                getVehicles();
-                break;
+                return true;
             }
         }
+    }).catch((err)=>{
+        alert(`Error: ${err.message()}`);
     });
 }
 
@@ -221,16 +241,15 @@ function tableCreatorAll(vehicles){
     let tableHead = document.querySelector('#headTableVeh');
     let tableBody = document.querySelector('#bodyTableVeh');
     let cont =`
-        <input class="butCloseTb" type="button" value="Close" id="btnUpdateVeh" onclick="closeTableVeh()">
-        <tr class="">
-            <td>ID vehicle</td>
+        <tr>
+            <td>ID</td>
             <td>Plate</td>
             <td>Brand</td>
             <td>Model</td>
             <td>Color</td>  
             <td>Department</td>
-            <td>Delete</td>
             <td>Update</td>
+            <td>Delete</td>
         </tr>`;
     tableHead.innerHTML = cont;
     cont = "";
@@ -242,7 +261,7 @@ function tableCreatorAll(vehicles){
                 <td>${vehicle.brand}</td>
                 <td>${vehicle.model}</td>
                 <td>${vehicle.color}</td>
-                <td><button class="butInternal" value="detVehDep" onclick="vehicleDepartmentDet(${vehicle.idVehicle})">${vehicle.department.departmentName}</button></td>                
+                <td><button class="butInternal butInternal--alt" value="detVehDep" onclick="vehicleDepartmentDet(${vehicle.idVehicle})">${vehicle.department.departmentName}</button></td>                
                 <td><button class="butInternal" value="updateVeh" onclick="fillOutFieldsVeh(${vehicle.idVehicle})">Update</button></td>
                 <td><button class="butInternal" value="deletVeh" onclick="deleteVehicle(${vehicle.idVehicle})">Delete</button></td>
             </tr>`;
@@ -254,9 +273,8 @@ function tableCreatorById(vehicle){
     let placeholderHead = document.querySelector('#headTableVeh');
     let placeholder = document.querySelector('#bodyTableVeh');
     let cont =`
-        <input class="butCloseTb" type="button" value="close" id="btnUpdateDep" onclick="closeTableVeh()">
-        <tr class="backGroundCell">
-            <td>Id vehicle</td>
+        <tr>
+            <td>ID</td>
             <td>Plate</td>
             <td>Brand</td>
             <td>Model</td>
@@ -268,13 +286,13 @@ function tableCreatorById(vehicle){
     placeholderHead.innerHTML = cont;
     cont = "";
     cont +=`
-        <tr class="backGroundCell">
+        <tr>
         <td>${vehicle.idVehicle}</td>
         <td>${vehicle.plate}</td>
         <td>${vehicle.brand}</td>
         <td>${vehicle.model}</td>
         <td>${vehicle.color}</td>
-        <td><button class="butInternal" value="detVehDep" onclick="vehicleDepartmentDet(${vehicle.idVehicle})">${vehicle.department.departmentName}</button></td>
+        <td><button class="butInternal butInternal--alt" value="detVehDep" onclick="vehicleDepartmentDet(${vehicle.idVehicle})">${vehicle.department.departmentName}</button></td>
         <td><button class="butInternal" value="updateVeh" onclick="fillOutFieldsVeh(${vehicle.idVehicle})">Update</button></td>
         <td><button class="butInternal" value="deletVeh" onclick="deleteVehicle(${vehicle.idVehicle})">Delete</button></td>
     </tr>`;
@@ -285,9 +303,8 @@ function tableVehDepCreator(vehicle){
     let placeholderHead = document.querySelector('#headTableVeh');
     let placeholder = document.querySelector('#bodyTableVeh');
     let cont =`
-        <input class="butCloseTb" type="button" value="close" id="btnUpdate" onclick="closeTableVeh()">
-        <tr class="backGroundCell">
-            <td>Id department</td>
+        <tr>
+            <td>ID Department</td>
             <td>Department's name</td>
             <td>Salary</td>
             <td>Department level</td>
@@ -316,7 +333,6 @@ function deactivateAnimationTable(){
     let tableEmp= document.querySelector("#tableVeh");
     let classTable = tableEmp.classList.contains('tableAnimation')
     if(classTable){
-        console.log(classTable);
         tableEmp.classList.remove('tableAnimation');
         tableEmp.classList.add('tableCenter');
     }
@@ -333,10 +349,10 @@ function verifyEmptyFieldsVeh(){
     let emptyVeh = " ";
 
     if(vehiclePlateCreate.length>0 && vehicleBrandCreate.length>0 && vehicleModelCreate.length>0 && vehicleColorCreate.length>0 && departmentIdCreate.length>0){
-        for (a=0;a<generalVeh.length;a++){
+        for (let a=0;a<generalVeh.length;a++){
             let uniGenDep = [];
             uniGenDep+=generalVeh[a];
-            for(a2=0;a2<uniGenDep.length;a2++){
+            for(let a2=0;a2<uniGenDep.length;a2++){
                 if(emptyVeh !== uniGenDep[0]){
                 }else {
                     alert("don't leave empty fields 1");+
@@ -358,14 +374,12 @@ function cleanFieldsVeh(){
     let vehicleColorCreate = document.getElementById('colorCreate');
     let departmentIdCreate = document.getElementById('departmentIdCreate');
 
-    let emptyField = "";
-    /*The difference between innerHTML and value is, the last one insert a value of an attribute into a html element,
-    when we want to add text into a field we have to use field.value = "text"*/
-    vehiclePlateCreate.value = emptyField;
-    vehicleBrandCreate.value = emptyField;
-    vehicleModelCreate.value = emptyField;
-    vehicleColorCreate.value = emptyField;
-    departmentIdCreate.value = emptyField;
+    let empty = "";
+    vehiclePlateCreate.value = empty;
+    vehicleBrandCreate.value = empty;
+    vehicleModelCreate.value = empty;
+    vehicleColorCreate.value = empty;
+    departmentIdCreate.value = empty;
 }
 // 2.2 PRINT AND REMOVE CRATE FORM
 function showCreateFieldsVeh(){
@@ -437,21 +451,23 @@ function verifyEmptyIdFieldVeh(){
 function showSearchVeh(){
     let formFindId = document.getElementById('fieldIdVeh');
     let buttonSearch = document.getElementById('btnSearchVeh');
+    let buttonShow = document.getElementById('getVehicles');
     let contForm = `
-            <p class="footer">!Please! Insert a vehicle's id to search it in the system.</p>
-            <input type="number" id="idVehicleSearch" placeholder="id">
-            <input class="butIni" type="button" value="Confirm" id="btnConfirm" onclick="rootGetVehicleByID()">`;
+        <p class="footer">!Please! Insert a vehicle's id to search it in the system.</p>
+        <input type="number" id="idVehicleSearch" placeholder="id">
+        <input class="butIni" type="button" value="Confirm" id="btnConfirm" onclick="rootGetVehicleByID()">`;
 
     if(buttonSearch.getAttribute("value")==='Search'){
         formFindId.classList.remove("formsStyle");
         formFindId.classList.add("formsStyle--active");
-        buttonSearch.setAttribute('value', 'Cancel search');
+        buttonSearch.setAttribute('value', 'Close search');
         formFindId.innerHTML = contForm;
-
     }else {
         formFindId.classList.remove("formsStyle--active");
         formFindId.classList.add("formsStyle");
         buttonSearch.setAttribute('value', 'Search');
+        buttonShow.setAttribute('value', 'Show Registers');
+        closeTableVeh();
         setTimeout(()=>{
             formFindId.innerHTML = '';
         }, 300);
@@ -473,7 +489,6 @@ function verifyEmptyFieldsUpdateVeh(){
             uniGen+=generalUpdate[i];
             for(let i2=0;i2<uniGen.length;i2++){
                 if(empty !== uniGen[0]){
-                    return true;
                 }else {
                     alert("don't leave empty fields 1");
                     stop();
@@ -487,13 +502,13 @@ function verifyEmptyFieldsUpdateVeh(){
     }
 }
 // 4.1 CLOSE UPDATE FORM
-function showFieldsUpdateVeh() {
+function showFieldsUpdateVeh(direct) {
     //This command selects the div which contains the fields
     let formUpVeh = document.getElementById('fieldsUpdateVeh');
     //This command selects a button of document
-    let btnCanUpd = document.getElementById('btnCancelUpdateVeh');
+    let btnCanUpd = document.getElementById('btnCancelUpdateVeh').getAttribute("value");
     // EXECUTING A FADE OUT AND THEN REMOVING CONTENT
-    if (btnCanUpd.getAttribute("value") === "Cancel Update"){
+    if (btnCanUpd==="Cancel Update" || direct){
         formUpVeh.classList.remove('formsStyle--active');
         formUpVeh.classList.add('formsStyle');
         setTimeout(()=>{
@@ -512,13 +527,15 @@ function fillOutFieldsVeh(id){
         formUpVeh.classList.remove('formsStyle');
         formUpVeh.classList.add('formsStyle--active');
         formUpVeh.innerHTML = `
-            <input type="text" id="idVehicleUpdate" placeholder="ID Vehicle" value="${vehicle.idVehicle}"><br>
+            <input type="text" id="idVehicleUpdate" placeholder="ID Vehicle" value="${vehicle.idVehicle}" disabled><br>
             <input type="text" id="plateUpdate" placeholder="Plate" value="${vehicle.plate}"><br>
             <input type="text" id="brandUpdate" placeholder="Brand" value="${vehicle.brand}"><br>
             <input type="text" id="modelUpdate" placeholder="Model" value="${vehicle.model}"><br>
             <input type="text" id="colorUpdate" placeholder="Color" value="${vehicle.color}"><br>
             <input class="butIni" type="button" value="Confirm Update" id="btnUpdateVeh" onclick="rootUpdateVeh()">
             <input class="butIni" type="button" value="Cancel Update" id="btnCancelUpdateVeh" onclick="showFieldsUpdateVeh()">`;
+    }).catch((err)=> {
+        alert(`Error: ${err.message}`);
     });
 }
 // 4.3 CLEAN INPUT FIELDS OF UPDATE FORM
