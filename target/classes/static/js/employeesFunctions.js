@@ -154,228 +154,131 @@ const modified_url_emp = 'http://localhost:8080/api/employees/';
 
 //Root create employee
 async function rootCreateEmp(){
-    //Requires verify existence
-    if (verifyEmptyFields()!=false){
-        postEmployeeFetch();
+    if (verifyEmptyFields()!==false){
+       await postEmployeeFetch();
         cleanFields();
     }
 }
 
 //Root get employee by id
 async function rootGetEmployeeById(){
-    switch (verifyEmptyIdField()){
-        case !false:
-                switch (verifyNumber()){
-                    case true :
-                        getEmployeeById();
-                        break;
-                }
-            break;
+    let test;
+    if (verifyEmptyIdField()!==false) {
+        test = true;
+    }
+    if(test && verifyNumber()) {
+        test = "passed";
+    }
+    if(test==="passed"){
+        await getEmployeeById();
     }
 }
 
 //Root update employee
 async function rootUpdateEmployee(){
-    if (verifyEmptyFieldsUpdate()!=false){
-        updateEmployee();
-        cleanFieldsUpdate();
-        showFieldsUpdate();
+    if (verifyEmptyFieldsUpdate()!==false){
+        let upStatus = updateEmployee();
+        if(upStatus){
+            alert("The employee has been successfully updated");
+            cleanFieldsUpdate();
+            showFieldsUpdate(true);
+            await getEmployeeFetch2(true);
+        }
+        if (upStatus===false){
+            alert("The Employee couldn't be updated");
+        }
     }
 }
 
-//////////////////////Internal methods for employee////////////////////////////////////
+///////////////////// CRUD CONSUMING METHODS ////////////////////////////////////
 
-//get employee method
-async function getEmployeeFetch2(){
-    activeAnimationTable();
-    //This line sends and promise to that url, by defect the method is get, if you wan
+// GET ALL EMPLOYEES
+async function getEmployeeFetch2(direct){
     fetch(basic_ulr_emp)
-        //this line gets a response and put those values into a resp variable
-    .then(
-        function (resp){
+    .then((resp)=>{
         //This line becomes resp into a JSON object
-            return resp.json();
+        return resp.json();
+    })
+    .then((employees)=>{
+        let butState = document.getElementById('getEmployeeFetch2').getAttribute('value');
+        let butVal =document.getElementById('getEmployeeFetch2');
+        if(butState==='Show Registers' && employees || direct){
+            activeAnimationTable();
+            tableCreatorAll(employees);
+            butVal.setAttribute('value', "Close Registers");
+        }else {
+            closeTable();
+            butVal.setAttribute('value', "Show Registers");
         }
-    ).then(
-        function (employees){
-            let tableHead = document.querySelector('#headTable');
-            let tableBody = document.querySelector('#bodyTable');
-            let content = "";
-                content +=`<input class="butCloseTb" type="button" value="close" id="btnUpdate" onclick="closeTable()">`;
-
-                content +=`
-                    <tr class="backGroundCell">
-                        <td>Id employee</td>
-                        <td>first name</td>
-                        <td>Last name</td>
-                        <td>Email</td>
-                        <td>Department</td>
-                        <td>Vehicle</td>
-                        <td>Delete</td>
-                        <td>Update</td>
-                    </tr>
-                `;
-
-            tableHead.innerHTML = content;
-            content = "";
-
-            for (let employee of employees){
-                content +=`
-                    <tr class="backGroundCell">
-                        <td>${employee.id}</td>
-                        <td>${employee.firstName}</td>
-                        <td>${employee.lastName}</td>
-                        <td>${employee.email}</td>
-                        <td><button class="butInternal" value="details" onclick="employeeDepartmentDet(${employee.id})">${employee.department.departmentName}</button></td>
-                        <td><button class="butInternal" value="details" onclick="employeeVehicle(${employee.id})">${employee.vehicle.model}</button></td>
-                        <td><button class="butInternal" value="delete" onclick="deleteEmployee(${employee.id})">Delete</button></td>
-                        <td><button class="butInternal" value="update" onclick="fillUpFields(${employee.id})">Update</button></td>
-                    </tr>
-                `;
-            }
-            tableBody.innerHTML = content;
-        }
-    )
-}
-//-------------------------------------------------------------------------------------------------------------------------------------------------
-//Get employee's department
-function employeeDepartmentDet(id){
-    fetch(modified_url_emp+id)
-    .then(
-        function (response){
-          return response.json();
-        }
-    ).then(
-        function (employee) {
-            let placeholderHead = document.querySelector('#headTable');
-            let placeholder = document.querySelector('#bodyTable');
-            let out = "";
-            out +=`<input class="butCloseTb" type="button" value="close" id="btnUpdate" onclick="closeTable()">`;
-
-            out += `
-                    <tr class="backGroundCell">
-                        <td>Id department</td>
-                        <td>Department's name</td>
-                        <td>Salary</td>
-                        <td>Department level</td>
-                    </tr>
-                `;
-
-            placeholderHead.innerHTML = out;
-            //Here the variable out which will be insert into the html document using innerHTML is cleaned.
-            out = "";
-                out += `
-                    <td>${employee.department.idDep}</td>
-                    <td>${employee.department.departmentName}</td>
-                    <td>${employee.department.departmentSalary}</td>
-                    <td>${employee.department.departmentLevel}</td>
-                `;
-            /*innerHTML is a better way to insert information in the html document, in this case the code is adding
-            the variable called out, which contains the table looped.
-            * */
-            placeholder.innerHTML = out;
-        }
-    )
+    }).catch((err)=>{
+        alert(`An error occurred: ${err.message}`)
+    });
 }
 
-function employeeVehicle(id){
-    fetch(modified_url_emp+id)
-    .then(
-        function (response){
-            return response.json();
-        }
-    ).then(
-        function (employee) {
-            console.log(employee);
-            let placeholderHead = document.querySelector('#headTable');
-            let placeholder = document.querySelector('#bodyTable');
-            let out = "";
-            out +=`<input class="butCloseTb" type="button" value="close" id="btnUpdate" onclick="closeTable()">`;
-            out += `
-                    <tr class="backGroundCell">
-                        <td>Id vehicle</td>
-                        <td>plate</td>
-                        <td>brand</td>
-                        <td>model</td>
-                        <td>color</td>
-                    </tr>
-                `;
-
-            placeholderHead.innerHTML = out;
-            //Here the variable out which will be insert into the html document using innerHTML is cleaned.
-            out = "";
-            out += `
-                    <td>${employee.vehicle.idVehicle}</td>
-                    <td>${employee.vehicle.plate}</td>
-                    <td>${employee.vehicle.brand}</td>
-                    <td>${employee.vehicle.model}</td>
-                    <td>${employee.vehicle.color}</td>
-                `;
-            /*innerHTML is a better way to insert information in the html document, in this case the code is adding
-            the variable called out, which contains the table looped.
-            * */
-            placeholder.innerHTML = out;
-        }
-    )
-}
-
-//-------------------------------------------------------------------------------------------------------------------------------------------------
-//Get employee by id method
+// GET A EMPLOYEE BY ID
 async function getEmployeeById(){
-    activeAnimationTable();
     let idEmployee = document.getElementById('id').value;
     fetch(modified_url_emp+idEmployee)
-    .then(
-        function (response){
-            return response.json();
+    .then((response)=>{
+        return response.json();
+    })
+    .then((resJson)=>{
+        if(resJson.status===404){
+            alert(`The employee's id isn't exist, status: ${resJson.status}`);
+        }else if(resJson.status===500){
+            alert(`There was an error, status: ${resJson.status}`);
+        }else {
+            activeAnimationTable();
+            tableCreatorById(resJson);
         }
-    ).then(
-        function (employee) {
-            let placeholderHead = document.querySelector('#headTable');
-            let placeholder = document.querySelector('#bodyTable');
-            let out = "";
-            out +=`<input class="butCloseTb" type="button" value="close" id="btnUpdate" onclick="closeTable()">`;
-
-            out += `
-                    <tr class="backGroundCell">
-                        <td>Id employee</td>
-                        <td>first name</td>
-                        <td>Last name</td>
-                        <td>Email</td>
-                        <td>Department</td>
-                        <td>Vehicle</td>
-                        <td>Delete</td>
-                        <td>Update</td>
-                    </tr>
-                `;
-
-            placeholderHead.innerHTML = out;
-            //Here the variable out which will be insert into the html document using innerHTML is cleaned.
-            out = "";
-            out += `
-                    <td>${employee.id}</td>
-                    <td>${employee.firstName}</td>
-                    <td>${employee.lastName}</td>
-                    <td>${employee.email}</td>
-                    <td><button class="butInternal" value="details" onclick="employeeDepartmentDet(${employee.id})">${employee.department.departmentName}</button></td>
-                    <td><button class="butInternal" value="details" onclick="employeeVehicle(${employee.id})">${employee.vehicle.model}</button></td>
-                    <td><button class="butInternal" value="delete" onclick="deleteEmployee(${employee.id})">Delete</button></td>
-                    <td><button class="butInternal" value="update" onclick="fillUpFields(${employee.id})">Update</button></td>
-                `;
-            /*innerHTML is a better way to insert information in the html document, in this case the code is adding
-            the variable called out, which contains the table looped.
-            * */
-            placeholder.innerHTML = out;
-        }
-    ).catch(
-        err => {
-            alert("the employee doesn't exist");
-            closeTable();
-        }
-    )
+    }).catch((err) => {
+        alert(err.message);
+    });
 }
 
-//Post method with fetch
+// GET AN EMPLOYEE'S DEPARTMENT (DETAIL)
+function employeeDepartmentDet(id){
+    fetch(modified_url_emp+id)
+    .then((response)=>{
+      return response.json();
+    })
+    .then((resJson)=>{
+        if(resJson.status===400||resJson.status===500){
+            alert(`There was a error, status: ${resJson.status}`);
+        }else {
+            closeTable();
+            setTimeout(()=>{
+                activeAnimationTable();
+                tableEmpDepCreator(resJson);
+            },300);
+        }
+    }).catch((err)=>{
+        alert(err.message);
+    });
+}
+
+// GET AN EMPLOYEE'S VEHICLE (DETAIL)
+function employeeVehicle(id){
+    fetch(modified_url_emp+id)
+    .then((response)=>{
+        return response.json();
+    })
+    .then((resJson) =>{
+        if(resJson.status===400||resJson.status===500){
+            alert(`There was a error, status: ${resJson.status}`);
+        }else {
+            closeTable();
+            setTimeout(()=>{
+                activeAnimationTable();
+                tableEmpVehCreator(resJson);
+            },300);
+        }
+    }).catch((err)=>{
+        alert(err.message);
+    });
+}
+
+// CREATE AN EMPLOYEE
 async function postEmployeeFetch(){
     let firstNameVal = document.getElementById('firstName').value;
     let lastNameVal = document.getElementById('lastName').value;
@@ -397,21 +300,25 @@ async function postEmployeeFetch(){
         headers: {
             "Content-type": "application/json; charset=UTF-8"
         }
-    }).then(
-        function (response){
-            if (response.status==201) {
-                alert("The employee has been created");
+    })
+    .then((response)=>{
+        switch (response.status){
+            case 201:{
+                alert(`The employee has been created, status: ${response.status}`);
                 getEmployeeFetch2();
+                break;
             }
-            if (response.status==500){
-                alert("The department's or Vehicle's id doesn't exist or you are using a vehicle's id that has been already used");
+            case 500:{
+                alert(`There was an error, status: ${response.status}`);
+                break;
             }
-
         }
-    )
+    }).catch((err)=>{
+        alert(`There was an error: ${err.message}`);
+    });
 }
 
-//Delete method with fetch
+// DELETE AN EMPLOYEE BY ID
 async function deleteEmployee(idEmployee){
     console.log(idEmployee);
     //let idEmployee = document.getElementById()
@@ -419,16 +326,25 @@ async function deleteEmployee(idEmployee){
         method: 'DELETE',
         headers: {"Content-type": "application/json; charset=UTF-8"}
     })
-    .then(response => {
-        alert("the employee has been deleted");
-        getEmployeeFetch2();
+    .then(resJson => {
+        switch (resJson.status){
+            case 200: {
+                alert("The employee has been successfully deleted");
+                getEmployeeFetch2(true);
+                break;
+            }
+            case 500: {
+                alert(`An error occurred, status: ${resJson.status}`);
+                break;
+            }
+        }
     })
-    .catch(
-        err => alert('It was not possible to delete the employee')
-    )
+    .catch((err) => {
+        alert(`error: ${err.message}`);
+    });
 }
 
-//Update method with fetch
+// UPDATE AN EMPLOYEE TAKING VALUES FORM FORM UPDATE
 async function updateEmployee(){
     let idEmployeeValUpdate = document.getElementById('idEmployee').value;
     let firstNameValUpdate = document.getElementById('firstNameUpdate').value;
@@ -438,7 +354,6 @@ async function updateEmployee(){
     fetch(modified_url_emp+idEmployeeValUpdate,{
         //Method type
         method: 'PUT',
-
         //Body content
         body: JSON.stringify({
             firstName: firstNameValUpdate,
@@ -455,30 +370,250 @@ async function updateEmployee(){
         headers: {
             "Content-type": "application/json; charset=UTF-8"
         }
-    }).then(
-        function (response){
-            response.json();
-            alert("The employee has been updated");
-            getEmployeeFetch2();
+    }).then((resJson)=>{
+        switch (resJson.status){
+            case 500 : {
+                alert( `There was an error, status: ${resJson.status}`);
+                return false;
+            }
+            case 200 : {
+                return true;
+            }
         }
-    )
+    }).catch((err)=>{
+        alert(`Error: ${err.message}`);
+    });
 }
-////////////////////////Functional methods for web pages///////////////////////////////////////
 
-//close table
+//////////////////////// PRINTING METHODS AND FORM VALIDATION ///////////////////////////////////////
+
+// 1.0 CLOSE TABLE CONTAINER BY EXECUTING THE ANIMATION AND THEN REMOVING CONTENT
 function closeTable(){
     //select elements by id from document html.
-    let close = document.querySelector('#headTable');
-    let closeTwo = document.querySelector('#bodyTable');
+    let headTable = document.querySelector('#headTable');
+    let bodyTable = document.querySelector('#bodyTable');
     //variable to be set
     let empty = "";
-    //insert empty into document through an variable.
-    close.innerHTML = empty;
-    closeTwo.innerHTML = empty;
     deactivateAnimationTable();
+    setTimeout(()=>{
+        headTable.innerHTML = empty;
+        bodyTable.innerHTML = empty;
+    },300);
+
+}
+// 1.1 PRINT TABLE (ALL EMPLOYEES)
+function tableCreatorAll(employees){
+    let tableHead = document.querySelector('#headTable');
+    let tableBody = document.querySelector('#bodyTable');
+    let content =`
+        <tr>
+            <td>Id employee</td>
+            <td>first name</td>
+            <td>Last name</td>
+            <td>Email</td>
+            <td>Department</td>
+            <td>Vehicle</td>
+            <td>Update</td>
+            <td>Delete</td>
+        </tr>
+    `;
+
+    tableHead.innerHTML = content;
+    content = "";
+
+    for (let employee of employees){
+        content +=`
+            <tr>
+                <td>${employee.id}</td>
+                <td>${employee.firstName}</td>
+                <td>${employee.lastName}</td>
+                <td>${employee.email}</td>
+                <td><button class="butInternal butInternal--alt" value="details" onclick="employeeDepartmentDet(${employee.id})">${employee.department.departmentName}</button></td>
+                <td><button class="butInternal butInternal--alt" value="details" onclick="employeeVehicle(${employee.id})">${employee.vehicle.model}</button></td>
+                <td><button class="butInternal" value="update" onclick="fillUpFields(${employee.id})">Update</button></td>
+                <td><button class="butInternal" value="delete" onclick="deleteEmployee(${employee.id})">Delete</button></td>
+            </tr>
+        `;
+    }
+    tableBody.innerHTML = content;
+}
+// 1.2 PRINT TABLE (ONE  VEHICLE ONLY)
+function tableCreatorById(employee){
+    let placeholderHead = document.querySelector('#headTable');
+    let placeholder = document.querySelector('#bodyTable');
+    let out = `
+            <tr class="backGroundCell">
+                <td>Id employee</td>
+                <td>first name</td>
+                <td>Last name</td>
+                <td>Email</td>
+                <td>Department</td>
+                <td>Vehicle</td>
+                <td>Delete</td>
+                <td>Update</td>
+            </tr>
+        `;
+
+    placeholderHead.innerHTML = out;
+    out = "";
+    out += `
+        <td>${employee.id}</td>
+        <td>${employee.firstName}</td>
+        <td>${employee.lastName}</td>
+        <td>${employee.email}</td>
+        <td><button class="butInternal" value="details" onclick="employeeDepartmentDet(${employee.id})">${employee.department.departmentName}</button></td>
+        <td><button class="butInternal" value="details" onclick="employeeVehicle(${employee.id})">${employee.vehicle.model}</button></td>
+        <td><button class="butInternal" value="delete" onclick="deleteEmployee(${employee.id})">Delete</button></td>
+        <td><button class="butInternal" value="update" onclick="fillUpFields(${employee.id})">Update</button></td>
+    `;
+    placeholder.innerHTML = out;
+}
+// 1.3 PRINTING EMPLOYEE'S DEPARTMENT
+function tableEmpDepCreator(employee){
+    let tableHead = document.querySelector('#headTable');
+    let tableBody = document.querySelector('#bodyTable');
+    let cont =`
+        <tr>
+            <td>Id department</td>
+            <td>Department's name</td>
+            <td>Salary</td>
+            <td>Department level</td>
+        </tr>`;
+
+    tableHead.innerHTML = cont;
+    cont = "";
+    cont += `
+        <td>${employee.department.idDep}</td>
+        <td>${employee.department.departmentName}</td>
+        <td>${employee.department.departmentSalary}</td>
+        <td>${employee.department.departmentLevel}</td>
+    `;
+    tableBody.innerHTML = cont;
+}
+// 1.4 PRINTING EMPLOYEE'S VEHICLE
+function tableEmpVehCreator(employee){
+    let tableHead = document.querySelector('#headTable');
+    let tableBody = document.querySelector('#bodyTable');
+    let cont = `
+        <tr class="backGroundCell">
+            <td>ID</td>
+            <td>plate</td>
+            <td>brand</td>
+            <td>model</td>
+            <td>color</td>
+        </tr>
+    `;
+    tableHead.innerHTML = cont;
+    cont = "";
+    cont += `
+        <td>${employee.vehicle.idVehicle}</td>
+        <td>${employee.vehicle.plate}</td>
+        <td>${employee.vehicle.brand}</td>
+        <td>${employee.vehicle.model}</td>
+        <td>${employee.vehicle.color}</td>
+    `;
+    tableBody.innerHTML = cont;
+}
+// 1.5 ACTIVATE ANIMATION FOR TABLE CONTAINER (FADE IN)
+function activeAnimationTable(){
+    let tableEmp= document.querySelector("#tableEmp");
+    let classTable = tableEmp.classList.contains('tableCenter')
+    if(classTable){
+        tableEmp.classList.remove('tableCenter');
+        tableEmp.classList.add('tableAnimation');
+    }
+}
+// 1.6 DEACTIVATE ANIMATION FOR TABLE CONTAINER (FADE OUT)
+function deactivateAnimationTable(){
+    let tableEmp= document.querySelector("#tableEmp");
+    let classTable = tableEmp.classList.contains('tableAnimation')
+    if(classTable){
+        tableEmp.classList.remove('tableAnimation');
+        tableEmp.classList.add('tableCenter');
+    }
 }
 
-//Verify if value is a number (search by id)
+// 2.0 VERIFY EMPTY INPUT FIELDS CREATE FORM---------------------------------------------------------
+function verifyEmptyFields(){
+    let firstNameVal = document.getElementById('firstName').value;
+    let lastNameVal = document.getElementById('lastName').value;
+    let emailVal = document.getElementById('email').value;
+    let idDepVal = document.getElementById('department').value;
+    let idVehVal = document.getElementById('vehicle').value;
+
+    let general = [firstNameVal,lastNameVal,emailVal,idDepVal,idVehVal];
+    let empty = " ";
+
+    if(firstNameVal.length >0 && lastNameVal.length >0 && emailVal.length >0 && idDepVal.length >0 && idVehVal.length >0){
+        for (i=0;i<general.length;i++){
+            let uniGen = [];
+            uniGen+=general[i];
+            for(i2=0;i2<uniGen.length;i2++){
+                if(empty !== uniGen[0]){
+                }else {
+                    alert("don't leave empty fields 1");
+                    stop();
+                    return false;
+                }
+            }
+        }
+    }else {
+        alert("don't leave empty fields 2");
+        return false;
+    }
+}
+// 2.1 CLEAN INPUT FIELDS IN CREATE FORM
+function cleanFields(){
+    let firstNameVal = document.getElementById('firstName');
+    let lastNameVal = document.getElementById('lastName');
+    let emailVal = document.getElementById('email');
+    let idDepVal = document.getElementById('department');
+    let idVehVal = document.getElementById('vehicle');
+
+    let empty = "";
+    /*The difference between innerHTML and value is, the last one insert a value of an attribute into a html element,
+    when we want to add text into a field we have to use field.value = "text"*/
+    firstNameVal.value = empty;
+    lastNameVal.value = empty;
+    emailVal.value = empty;
+    idDepVal.value = empty;
+    idVehVal.value = empty;
+}
+//2.2 PRINT AND REMOVE CREATE FORM
+function showFields(){
+    //This command selects the div which contains the fields
+    let formCrEmp = document.getElementById('fieldsEmp');
+    //This command selects a button of document
+    let buttonShow = document.getElementById('btnShow');
+    //This command chooses attributes of a div: hidden = "hidden"
+
+    let formContent = `
+        <!--Forms-->
+        <input type="text" id="firstName" placeholder="first name"><br>
+        <input type="text" id="lastName" placeholder="last name"><br>
+        <input type="text" id="email" placeholder="email"><br>
+        <input type="number" id="department" placeholder="department id"><br>
+        <input type="number" id="vehicle" placeholder="Vehicle id"><br>
+        <!--Buttons-->
+        <input class="butIni" type="button" value="Confirm create" id="btnCreate" onclick="rootCreateEmp()">    
+   `;
+    if(buttonShow.getAttribute("value")==="Create register"){
+        formCrEmp.classList.remove("formsStyle");
+        formCrEmp.classList.add("formsStyle--active");
+        buttonShow.setAttribute('value', 'Cancel register');
+        formCrEmp.innerHTML += formContent;
+    }else {
+        formCrEmp.classList.remove("formsStyle--active");
+        formCrEmp.classList.add("formsStyle");
+        buttonShow.setAttribute('value','Create register');
+        setTimeout(()=>{
+            formCrEmp.innerHTML = '';
+        }, 300);
+    }
+}
+
+
+// 3.0 CHECK IF AN EMPLOYEE'S ID IS A NUMBER IN SEARCH FORM -----------------------------------------
 function verifyNumber(){
     let fieldValue = document.getElementById('id').value;
     let intValue = parseInt(fieldValue);
@@ -488,76 +623,17 @@ function verifyNumber(){
         alert("Only numbers are allowed");
     }
 }
-
-//Verify values inside fields form
-function verifyEmptyFields(){
-    let firstNameVal = document.getElementById('firstName').value;
-    let lastNameVal = document.getElementById('lastName').value;
-    let emailVal = document.getElementById('email').value;
-    let idDepVal = document.getElementById('department').value;
-    let idVehVal = document.getElementById('vehicle').value;
-
-    let general = [firstNameVal,lastNameVal,emailVal,idDepVal,idVehVal];
-    let vacio = " ";
-
-    if(firstNameVal.length >0 && lastNameVal.length >0 && emailVal.length >0 && idDepVal.length >0 && idVehVal.length >0){
-        for (i=0;i<general.length;i++){
-            let uniGen = [];
-            uniGen+=general[i];
-            for(i2=0;i2<uniGen.length;i2++){
-                if(vacio !== uniGen[0]){
-                }else {
-                    alert("don't leave empty fields 1");
-                    stop();
-                    return false;
-                }
-            }
-        }
-    }else {
-        alert("don't leave empty fields 2");
-        return false;
-    }
-}
-
-//Verify values inside fields update
-function verifyEmptyFieldsUpdate(){
-    let firstNameValUpdate = document.getElementById('firstNameUpdate').value;
-    let lastNameValUpdate = document.getElementById('lastNameUpdate').value;
-    let emailValUpdate = document.getElementById('emailUpdate').value;
-    let generalUpdate = [firstNameValUpdate,lastNameValUpdate,emailValUpdate];
-    let vacio = " ";
-
-    if(firstNameValUpdate.length >0 && lastNameValUpdate.length >0 && emailValUpdate.length >0){
-        for (i=0;i<generalUpdate.length;i++){
-            let uniGen = [];
-            uniGen+=generalUpdate[i];
-            for(i2=0;i2<uniGen.length;i2++){
-                if(vacio !== uniGen[0]){
-                }else {
-                    alert("don't leave empty fields 1");
-                    stop();
-                    return false;
-                }
-            }
-        }
-    }else {
-        alert("don't leave empty fields 2");
-        return false;
-    }
-}
-
-//Verify empty fields in search button
+// 3.1 VERIFY EMPTY INPUT FIELDS IN SEARCH FORM
 function verifyEmptyIdField(){
     let idEmployee = document.getElementById('id').value;
     let general = idEmployee;
-    let vacio = " ";
-
+    let empty = " ";
     if(idEmployee.length >0){
-        for (i=0;i<general.length;i++){
+        for (let i=0;i<general.length;i++){
             let uniGen = [];
             uniGen+=general;
-            for(i2=0;i2<uniGen.length;i2++){
-                if(vacio!= uniGen[i2]){
+            for(let i2=0;i2<uniGen.length;i2++){
+                if(empty!== uniGen[i2]){
                     return true;
                 }else {
                     alert("don't leave empty fields 1");
@@ -571,26 +647,101 @@ function verifyEmptyIdField(){
         return false;
     }
 }
+// 3.2 PRINT AND REMOVE SEARCH FORM
+function showSearch(){
+    let formFindId = document.getElementById('fieldId');
+    let butSearch = document.getElementById('btnSearch');
+    let buttonShow = document.getElementById('btnShow');
 
-//clean fields
-function cleanFields(){
-    let firstNameVal = document.getElementById('firstName');
-    let lastNameVal = document.getElementById('lastName');
-    let emailVal = document.getElementById('email');
-    let idDepVal = document.getElementById('department');
-    let idVehVal = document.getElementById('vehicle');
+    let contForm = `
+        <p class="footer">!Please! Insert an employee's id to search it in the system.</p>
+        <input type="number" id="id" placeholder="id">
+        <input class="butIni" type="button" value="Confirm" id="btnConfirm" onclick="rootGetEmployeeById()">
+    `;
 
-    let vacio = "";
-    /*The difference between innerHTML and value is, the last one insert a value of an attribute into a html element,
-    when we want to add text into a field we have to use field.value = "text"*/
-    firstNameVal.value = vacio;
-    lastNameVal.value = vacio;
-    emailVal.value = vacio;
-    idDepVal.value = vacio;
-    idVehVal.value = vacio;
+    if(butSearch.getAttribute("value")==='Search'){
+        formFindId.classList.remove("formsStyle");
+        formFindId.classList.add("formsStyle--active");
+        butSearch.setAttribute('value', 'Close search');
+        formFindId.innerHTML = contForm;
+    }else {
+        formFindId.classList.remove("formsStyle--active");
+        formFindId.classList.add("formsStyle");
+        butSearch.setAttribute('value', 'Search');
+        buttonShow.setAttribute('value', 'Show Registers');
+        closeTable();
+        setTimeout(()=>{
+            formFindId.innerHTML = '';
+        }, 300);
+    }
 }
 
-//Clean fields update form
+// 4.0 VERIFY EMPTY INPUT FIELDS IN UPDATE FORM ----------------------------------------------------
+function verifyEmptyFieldsUpdate(){
+    let firstNameValUpdate = document.getElementById('firstNameUpdate').value;
+    let lastNameValUpdate = document.getElementById('lastNameUpdate').value;
+    let emailValUpdate = document.getElementById('emailUpdate').value;
+    let generalUpdate = [firstNameValUpdate,lastNameValUpdate,emailValUpdate];
+    let empty = " ";
+
+    if(firstNameValUpdate.length >0 && lastNameValUpdate.length >0 && emailValUpdate.length >0){
+        for (let i=0;i<generalUpdate.length;i++){
+            let uniGen = [];
+            uniGen+=generalUpdate[i];
+            for(let i2=0;i2<uniGen.length;i2++){
+                if(empty !== uniGen[0]){
+                }else {
+                    alert("don't leave empty fields 1");
+                    stop();
+                    return false;
+                }
+            }
+        }
+    }else {
+        alert("don't leave empty fields 2");
+        return false;
+    }
+}
+// 4.1 CLOSE UPDATE FORM
+function showFieldsUpdate(direct){
+    //This command selects the div which contains the fields
+    let formUp = document.getElementById('fieldsUpdateEmp');
+    //This command selects a button of document
+    let btnCanUpd = document.getElementById('btnCancelUpdate').getAttribute("value");
+    // EXECUTING A FADE OUT AND THEN REMOVING CONTENT
+    if (btnCanUpd==="Cancel Update" || direct){
+        formUp.classList.remove('formsStyle--active');
+        formUp.classList.add('formsStyle');
+        setTimeout(()=>{
+            formUp.innerHTML = "";
+        }, 300);
+    }
+}
+// 4.2 PRINT UPDATE FORM
+function fillUpFields(id){
+    fetch(modified_url_emp+id)
+    .then((response)=>{
+        return response.json();
+    })
+    .then((employee) =>{
+        let formUpVeh = document.getElementById('fieldsUpdateEmp');
+        formUpVeh.classList.remove('formsStyle');
+        formUpVeh.classList.add('formsStyle--active');
+        formUpVeh.innerHTML = `
+            <!--Forms-->
+            <input type="text" id="idEmployee" placeholder="Id Employee" value="${employee.id}" disabled><br>
+            <input type="text" id="firstNameUpdate" placeholder="first name" value="${employee.firstName}"><br>
+            <input type="text" id="lastNameUpdate" placeholder="last name" value="${employee.lastName}"><br>
+            <input type="text" id="emailUpdate" placeholder="email" value="${employee.email}"><br>
+            <!--Buttons-->
+            <input class="butIni" type="button" value="Confirm Update" id="btnUpdate" onclick="rootUpdateEmployee()">
+            <input class="butIni" type="button" value="Cancel Update" id="btnCancelUpdate" onclick="showFieldsUpdate()">
+        `;
+    }).catch((err)=> {
+        alert(`Error: ${err.message}`);
+    });
+}
+// 4.3 CLEAN INPUT FIELDS OF UPDATE FORM
 function cleanFieldsUpdate(){
     let idEmployeeUpdate = document.getElementById('idEmployee');
     let firstNameValUpdate = document.getElementById('firstNameUpdate');
@@ -605,102 +756,7 @@ function cleanFieldsUpdate(){
     emailValUpdate.value = empty;
 }
 
-function showFields(){
-    //This command selects the div which contains the fields
-    let divFields = document.getElementById('fieldsEmp');
-    //This command selects a button of document
-    let buttonShow = document.getElementById('btnShow');
-    //This command chooses attributes of a div: hidden = "hidden"
-    let property = divFields.getAttribute('hidden');
 
-    //if property (hidden = hidden) remove property hidden
-    if(property) {
-        divFields.removeAttribute('hidden');
-        //set an attribute "value" as "close" = value = "close"
-        buttonShow.setAttribute('value', 'Cancel register')
-    }else {
-        divFields.setAttribute("hidden", "hidden");
-        buttonShow.setAttribute('value','Create register')
-    }
-}
 
-function showSearch(){
-    let divFieldId = document.getElementById('fieldId');
-    let buttonSearch = document.getElementById('btnSearch');
-    let property = divFieldId.getAttribute('hidden');
 
-    if (property){
-        divFieldId.removeAttribute('hidden');
-        buttonSearch.setAttribute('value', 'Cancel search');
-    }else {
-        divFieldId.setAttribute('hidden','hidden');
-        buttonSearch.setAttribute('value', 'Search');
-    }
-}
-
-function showFieldsUpdate(){
-    //This command selects the div which contains the fields
-    let divFieldsUpdate = document.getElementById('fieldsUpdateEmp');
-    //This command selects a button of document
-    let buttonCancelUpdate = document.getElementById('btnCancelUpdate');
-    //This command chooses attributes of a div: hidden = "hidden"
-    let property = divFieldsUpdate.getAttribute('hidden');
-
-    //if property (hidden = hidden) remove value hidden
-    if(property) {
-        divFieldsUpdate.removeAttribute('hidden');
-        //set an attribute "value" as "close" = value = "close"
-        buttonCancelUpdate.setAttribute('value', 'Cancel Update');
-    }else {
-        divFieldsUpdate.setAttribute('hidden','hidden');
-    }
-}
-
-function fillUpFields(id){
-    fetch(modified_url_emp+id)
-    .then(
-        function (response){
-            return response.json();
-        }
-    ).then(
-        function (employee) {
-            let idEmployeeVal = document.getElementById('idEmployee');
-            let firstNameVal = document.getElementById('firstNameUpdate');
-            let lastNameVal = document.getElementById('lastNameUpdate');
-            let emailVal = document.getElementById('emailUpdate');
-
-            idEmployeeVal.value = employee.id;
-            firstNameVal.value = employee.firstName;
-            lastNameVal.value = employee.lastName;
-            emailVal.value = employee.email;
-        }
-    ).then(
-        function (response){
-            showFieldsUpdate();
-        }
-    )
-}
-
-function activeAnimationTable(){
-    let tableEmp= document.querySelector("#tableEmp");
-    let classTable = tableEmp.classList.contains('tableCenter')
-    if(classTable){
-        tableEmp.classList.remove('tableCenter');
-        tableEmp.classList.add('tableAnimation');
-    }
-}
-
-function deactivateAnimationTable(){
-    let tableEmp= document.querySelector("#tableEmp");
-    let classTable = tableEmp.classList.contains('tableAnimation')
-    if(classTable){
-        tableEmp.classList.remove('tableAnimation');
-        tableEmp.classList.add('tableCenter');
-    }
-}
-/*Annotations
-Check them out then
-${}} -> this command is called string interpolation, topic to be reviewed.
-dataHTML += `<tr><td>${totalDepartmentDos}</td></tr>`;
-*/
 
