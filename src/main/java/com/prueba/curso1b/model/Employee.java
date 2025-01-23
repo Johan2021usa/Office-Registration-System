@@ -1,6 +1,6 @@
 package com.prueba.curso1b.model;
+import jakarta.persistence.*;
 import lombok.Data;
-import javax.persistence.*;
 
 
 @Data //getters, setters, constructors

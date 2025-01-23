@@ -80,9 +80,11 @@ body{
   width: 40px;
 }
 .title-page{
+  color: white;
   margin-left: 5px;
   font-size: 20px;
   font-weight: bold;
+  text-decoration: none;
 }
 .nav-right{
   display: flex;

@@ -1,8 +1,6 @@
 //End points for VM ip
 // const basic_urlDep = 'http://134.65.16.219:8080/api/departments';
 // const modified_urlDep = 'http://134.65.16.219:8080/api/departments/';
-// const basic_urlDep = 'http://134.65.16.219:8080/api/departments';
-// const modified_urlDep = 'http://134.65.16.219:8080/api/departments/';
 
 //End points for local host
 const basic_urlDep = 'http://localhost:8080/api/departments';
