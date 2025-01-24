@@ -9,7 +9,7 @@ It allows you to save, update, delete an see registers based on your needs. This
 
 The next is the Relation Entity Model of the project:
 
- ![M-E-R-office-system.png](../web-application/src/main/resources/static/img/M-E-R-office-system.png)
+ ![Entity relation diagram](/src/main/resources/static/img/M-E-R-office-system.png)
 
 I hope you like it.
 
@@ -42,7 +42,7 @@ As long as the database system, Maven and Java are installed, clone the reposito
 - Get in the target folder.
 - **sudo java -jar (name if the .jar)** ==> example: **sudo java -jar My-app.jar** ===> This command executes the Spring Boot application based on a jar file.
 
-## 4. USER LOGIN CREDENTIALS
+## 4. Testing User Login Credentials
 These credentials allow you to access to all resources of the API, however, as invited you will be redirected to the home page.
 - **user:**  johan
 - **password:** test*2024
