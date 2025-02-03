@@ -1,157 +1,17 @@
 //Functions employees, here we are going to consume API REST, Making HttpRequest
+const prod = false;
+let basic_ulr_emp, modified_url_emp;
+if(prod){
+    //End points for VM ip
+    basic_ulr_emp = 'http://134.65.16.219:8080/api/employees';
+    modified_url_emp = 'http://134.65.16.219:8080/api/employees/';
+}else{
+    //End points for local host
+    basic_ulr_emp = 'http://localhost:8080/api/employees';
+    modified_url_emp = 'http://localhost:8080/api/employees/';
+}
 
-//End points for VM ip
-const basic_ulr_emp = 'http://134.65.16.219:8080/api/employees';
-const modified_url_emp = 'http://134.65.16.219:8080/api/employees/';
-
-//End points for local host
-// const basic_ulr_emp = 'http://localhost:8080/api/employees';
-// const modified_url_emp = 'http://localhost:8080/api/employees/';
-
-
-// //Get employees #1
-// //Get method using AJAX
-// function getEmployeeAjax(){
-//     $.ajax({
-//         url:basic_ulr_emp,
-//         //data:'{}',
-//         type:'GET',
-//         dataType: 'json',
-//         contentType: "application/json; charset=utf-8",
-//         //el succes es necesario para crear y almacenar una variable con los datos que recibe ajax en este caso
-//
-//         success :
-//             function (dataEmployees){
-//             console.log(dataEmployees);
-//             },
-//         error :
-//             function(xhr, status) {
-//             alert('ha sucedido un problema ayax simple:'+ status);
-//             }
-//     });
-// }
-//
-// //Get employees #2
-// //Using XMLHttpRequest
-// // funcion para cuando la llamada es exitosa
-// function exito() {
-//     var datos = JSON.parse(this.responseText); //convertir a JSON
-//     console.log(datos);
-// }
-// // funcion para la llamada fallida
-// function error(err) {
-//     console.log('Solicitud fallida', err); //los detalles en el objecto "err"
-// }
-//
-// function getEmployeeXmlh(){
-//     var xhr = new XMLHttpRequest(); //invocar nueva instancia de XMLHttpRequest
-//     xhr.onload = exito; // llamar a la funcion exito si exitosa
-//     xhr.onerror = error;  // llamar a la funcion error si fallida
-//     xhr.open('GET', basic_ulr_emp); // Abrir solicitud GET
-//     xhr.send(); // mandar la solicitud al vervidor.
-// }
-//
-// //Get employess #3
-// //Using Fetch
-//
-// async function getEmployeeFetch(){
-//     let graficador = document.getElementById('spanEmployee');
-//     let graficadorDepartment = document.getElementById('contenedorDepartment');
-//     let dataHTML = '';
-//
-//     //as predeterminate fetch provides a get request, otherwise, you have to use headers to place a getById, post, update or delete method.
-//     await fetch(basic_ulr_emp)
-//         //receives a response and this one is converted into a JSON.
-//         .then(resEmployee => resEmployee.json())
-//         //then data is handled with a loop.
-//         .then(data => {
-//
-//             //This is a for each based on json variable which contains the response
-//             data.forEach(employee => {
-//
-//                 //Create an element according to each JSON value
-//                 const EmpResp = document.createElement('idEmpResp' + 'firstNameResp'+ 'lastNameResp' + 'emailEmpResp'+'departmentEmpResp');
-//
-//                 //create an InnerHTML variable according to each crated element.
-//                 let idEmployee = EmpResp.innerHTML = employee.id;
-//                 let firstNameEmp = EmpResp.innerHTML = employee.firstName;
-//                 let lastNameEmp = EmpResp.innerHTML = employee.lastName;
-//                 let emailEmp = EmpResp.innerHTML = employee.email;
-//                 let departmentEmp = EmpResp.innerHTML = employee.department;
-//
-//                 // Create an ArrayList with all innerHTML Values.
-//                 const datosEmployee = [idEmployee, firstNameEmp,lastNameEmp,emailEmp];
-//                 //showEmployee(datosEmployee);
-//
-//                 //Additional variable
-//                 const totalDepartment = [];
-//
-//                 /*This for (Loop) is used to iterate the object in order to become it into an Array, there are two i,
-//                 because the first one iterates the attribute name, and the second one the value, for instance: [dep_id, 2].
-//                 If you need only the value of that attribute you can remove the first i, look at the line 84.
-//
-//                 //Push a bi dimensional array into totalDepartment.
-//                     for(var i in departmentEmp){
-//                  totalDepartment.push([i,departmentEmp[i]]);
-//                 };
-//
-//                 //Show an array into the screen through a container
-//                 for(var i in totalDepartment){
-//                     graficadorDepartment.append(totalDepartment[i][1]+ " ");
-//                 }
-//                 */
-//
-//                 //Array list - one dimension
-//                 for(var i in departmentEmp){
-//                     totalDepartment.push(departmentEmp[i]);
-//                 };
-//
-//                 //Loop to append each value into the container to show values into the screen
-//                 for(var i in datosEmployee){
-//                     graficador.append(datosEmployee[i] + " ");
-//                 }
-//                 for(var i in totalDepartment){
-//                     graficadorDepartment.append(totalDepartment[i]+ " ");
-//                 }
-//
-//                 //console.log(datosEmployee);
-//                 //console.log(totalDepartment);
-//             })
-//         })
-//         // if a promise is not completed it will show an error.
-//         .catch(err => console.log('Solicitud fallida', err));
-// }
-// /*
-// //Get employee Using fetch #4
-// async function getEmployeeFetch2(){
-//     //container which will receive JSON values in order to be showed.
-//     let graficadorDos = document.getElementById('spanEmployee');
-//     let graficadorDepartmentDos = document.getElementById('contenedorDepartment');
-//
-//     //Fetch method to get all employees.
-//         await fetch(basic_ulr_emp)
-//             .then(resEmployee => resEmployee.json())
-//             .then(data => {
-//                 data.forEach(data => {
-//
-//                     //This is a new way to get the information of each parameter from a response.
-//                     const {id, firstName, lastName, email, department} = data;
-//                     const {idDep, departmentName, departmentSalary, departmentLevel} = department;
-//
-//                     //put each value form response into an Array
-//                     const dataEmployee = [id, firstName,lastName, email];
-//                     const employeeDepartment = [idDep, departmentName, departmentSalary, departmentLevel];
-//
-//                     //Append the information obtained to a container os span (screen)
-//                     graficadorDos.append(dataEmployee);
-//                     graficadorDepartmentDos. append(employeeDepartment);
-//
-//                 })
-//             })
-//             .catch(err => console.log('Solicitud fallida', err));
-// }
-// */
-
+/////////////////////////////////////////////////////////////////////////////////////////////
 //Root create employee
 async function rootCreateEmp(){
     if (verifyEmptyFields()!==false){

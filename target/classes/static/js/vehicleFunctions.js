@@ -1,13 +1,16 @@
-//End points for VM ip
-// const basic_urlVeh = 'http://134.65.16.219:8080/api/vehicles';
-// const modified_urlVeh = 'http://134.65.16.219:8080/api/vehicles/';
-
-//End points for local host
-const basic_urlVeh = 'http://localhost:8080/api/vehicles';
-const modified_urlVeh = 'http://localhost:8080/api/vehicles/';
+const prod = false;
+let basic_urlVeh, modified_urlVeh;
+if(prod){
+    //End points for VM ip
+    basic_urlVeh = 'http://134.65.16.219:8080/api/vehicles';
+    modified_urlVeh = 'http://134.65.16.219:8080/api/vehicles/';
+}else{
+    //End points for local host
+    basic_urlVeh = 'http://localhost:8080/api/vehicles';
+    modified_urlVeh = 'http://localhost:8080/api/vehicles/';
+}
 
 ////////////////////// Root Methods for vehicles ///////////////////////////////////////
-
 //Root create vehicles
 async function rootCreateVeh(){
     if(verifyEmptyFieldsVeh()!==false){
