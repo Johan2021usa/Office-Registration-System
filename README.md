@@ -5,7 +5,7 @@
 
 ## 1. Overview
 This system allows you to implement a registration system for an office by including three main components: Employees, Departments and Vehicles.
-It allows you to save, update, delete an see registers based on your needs. This software incorporates a amiable interface easy to use.
+It allows you to save, update, delete and see registers based on your needs. This software incorporates a amiable interface easy to use.
 
 The next is the Relation Entity Model of the project:
 
