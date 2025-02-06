@@ -59,6 +59,10 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: web-application
+          path: '${{ github.workspace }}/target/*.jar'
+
+      - name: List files in workspace (Debugging)
+        run: ls -R
 
       - name: Login to Azure
         uses: azure/login@v2
