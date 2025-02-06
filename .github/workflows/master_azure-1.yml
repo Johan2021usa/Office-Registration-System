@@ -1,7 +1,7 @@
-name: Build and deploy WAR app to Azure Web App - AZURE-1
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
 
-env:
-  AZURE_WEBAPP_NAME: AZURE-1 # Azure Web App Name
+name: Build and deploy WAR app to Azure Web App - AZURE-1
 
 on:
   push:
@@ -12,10 +12,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read #This is required for actions/checkout
 
     steps:
-      - name: Checkout source
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Set up Java version
         uses: actions/setup-java@v4
@@ -40,10 +41,10 @@ jobs:
         run: mvn clean install -DskipTests
 
       - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: web-application
-          path: '${{ github.workspace }}/target/*.war' # Ensure you're uploading the WAR file
+          name: java-app
+          path: '${{ github.workspace }}/target/*.war'
 
   deploy:
     runs-on: ubuntu-latest
@@ -52,13 +53,14 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write # Required for requesting the JWT
+      id-token: write #This is required for requesting the JWT
+      contents: read #This is required for actions/checkout
 
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
-          name: web-application
+          name: java-app
 
       - name: Login to Azure
         uses: azure/login@v2
@@ -67,9 +69,10 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
 
-      - name: Deploy to Azure App Service
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
-          package: '${{ github.workspace }}/target/*.war' # Update the path to the WAR file
+          app-name: 'AZURE-1'
+          slot-name: 'Production'
+          package: '*.war'
