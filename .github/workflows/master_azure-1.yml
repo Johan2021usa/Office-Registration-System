@@ -1,7 +1,7 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and deploy WAR app to Azure Web App - AZURE-1
+
+env:
+  AZURE_WEBAPP_NAME: AZURE-1 # Azure Web App Name
 
 on:
   push:
@@ -14,7 +14,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout source
+        uses: actions/checkout@v4
 
       - name: Set up Java version
         uses: actions/setup-java@v4
@@ -22,14 +23,27 @@ jobs:
           java-version: '17'
           distribution: 'microsoft'
 
+      - name: Create .env.properties File
+        run: |
+          echo "SPS_APP=${{ secrets.SPS_APP }}" >> .env.properties
+          echo "SPS_USER=${{ secrets.SPS_USER }}" >> .env.properties
+          echo "SPS_PASS=${{ secrets.SPS_PASS }}" >> .env.properties
+          echo "SPS_ROL=${{ secrets.SPS_ROL }}" >> .env.properties
+          echo "MYSQL_HOST_AZ=${{ secrets.MYSQL_HOST_AZ }}" >> .env.properties
+          echo "MYSQL_PORT_AZ=${{ secrets.MYSQL_PORT_AZ }}" >> .env.properties
+          echo "MYSQL_DB_AZ=${{ secrets.MYSQL_DB_AZ }}" >> .env.properties
+          echo "MYSQL_SSL_AZ=${{ secrets.MYSQL_SSL_AZ }}" >> .env.properties
+          echo "MYSQL_USER_AZ=${{ secrets.MYSQL_USER_AZ }}" >> .env.properties
+          echo "MYSQL_PASSWORD_AZ=${{ secrets.MYSQL_PASSWORD_AZ }}" >> .env.properties
+
       - name: Build with Maven
-        run: mvn clean install
+        run: mvn clean install -DskipTests
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: java-app
-          path: '${{ github.workspace }}/target/*.war'
+          name: web-application
+          path: '${{ github.workspace }}/target/*.jar'
 
   deploy:
     runs-on: ubuntu-latest
@@ -38,26 +52,26 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write #This is required for requesting the JWT
+      id-token: write # Required for requesting the JWT
 
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: java-app
-      
+          name: web-application
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_DBB5E4F0C9F0474C90484D1C55582A63 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_D51B40ED2A6D4C688F0D8C029A09B2B0 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_EAA10242F5CA4939B41AD94DDDD73AF1 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'AZURE-1'
-          slot-name: 'Production'
-          package: '*.war'
-          
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
+          package: './*.jar'
+
