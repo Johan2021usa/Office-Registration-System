@@ -59,10 +59,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: web-application
-          path: '${{ github.workspace }}/target/*.jar'
-
-      - name: List files in workspace (Debugging)
-        run: ls -R
 
       - name: Login to Azure
         uses: azure/login@v2
@@ -71,11 +67,9 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
 
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
+      - name: Deploy to Azure App Service
         uses: azure/webapps-deploy@v3
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
-          package: 'web-application/*.jar'
-
+          package: '*.jar'
